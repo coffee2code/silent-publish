@@ -1,19 +1,20 @@
 === Silent Publish ===
-Contributors: Scott Reilly
-Donate link: http://coffee2code.com
-Tags: publish, ping, no ping, trackback, update services, post
-Requires at least: 2.6
-Tested up to: 2.7.1
-Stable tag: trunk
-Version: 1.0
+Contributors: coffee2code
+Donate link: http://coffee2code.com/donate
+Tags: publish, ping, no ping, trackback, update services, post, coffee2code
+Requires at least: 2.9
+Tested up to: 3.0.1
+Stable tag: 2.0
+Version: 2.0
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
+
 
 == Description ==
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
-This plugin adds a "Publish silently" checkbox to the "Write Post" admin page.  If checked when the post is published, that post will not trigger the pingbacks, trackbacks, and update service notifications that might typically occur.
+This plugin adds a "Publish silently?" checkbox to the "Write Post" admin page.  If checked when the post is published, that post will not trigger the pingbacks, trackbacks, and update service notifications that might typically occur.
 
 In every other manner, the post is published as usual: it'll appear on the front page, archives, and feeds as expected, and no other aspect of the post is affected.
 
@@ -21,16 +22,80 @@ While trackbacks and pingsbacks can already be disabled from the Add New Post/Pa
 
 If a post is silently published, a custom field '_silent_publish' for the post is set to a value of 1 as a means of recording the action.  However, this value is not then used for any purpose as of yet.  Nor is the custom field unset or changed if the post is later re-published.
 
+Also see my "Stealth Publish" plugin if you want make a new post but prevent it from appearing on the front page of your blog and not appear in feeds.  (That plugin incorporates this plugin's functionality, so you won't need both.)
+
 
 == Installation ==
-
-1. Unzip `silent-publish-v1.0.zip` inside the `/wp-content/plugins/` directory for your site
+1. Unzip `silent-publish.zip` inside the `/wp-content/plugins/` directory for your site (or install via the built-in WordPress plugin installer)
 1. Activate the plugin through the 'Plugins' admin menu in WordPress
-1. Click the 'Publish silently' checkbox when publishing a post to prevent triggering of pingbacks, trackbacks, or notifications to update services.
+1. Click the 'Publish silently?' checkbox when publishing a post to prevent triggering of pingbacks, trackbacks, or notifications to update services.
+
 
 == Screenshots ==
 
-1. A screenshot of the 'Publish' sidebar box on the write/edit post admin page when Javascript is enabled.  The 'Publish silently' checkbox is integrated alongside the existing fields.
-2. A screenshot of the 'Silent Publish' sidebar box on the write/edit post admin page when Javascript is disabled for the admin user.
+1. A screenshot of the 'Publish' sidebar box on the Add New Post admin page.  The 'Publish silently?' checkbox is integrated alongside the existing fields.
+2. A screenshot of the 'Silent publish?' checkbox displaying help text when hovering over the checkbox.
 
 
+== Frequently Asked Questions ==
+
+= Why would I want to silent publish a post? =
+
+Perhaps for a particular post you don't want any external notifications sent out.  If checked when the post is published, that post will not trigger the pingbacks, trackbacks, and update service notifications that might typically occur.
+
+
+== Filters ==
+
+The plugin is further customizable via one filter. Typically, these customizations would be put into your active theme's functions.php file, or used by another plugin.
+
+= silent_publish_meta_key (filter) =
+
+The 'silent_publish_meta_key' filter allows you to override the name of the custom field key used by the plugin to store a post's silent publish status.  This isn't a common need.
+
+Arguments:
+
+* $custom_field_key (string): The custom field key to be used by the plugin.  By default this is '_silent-publish'.
+
+Example:
+
+`
+add_filter( 'silent_publish_meta_key', 'override_silent_publish_key' );
+function override_silent_publish_key( $custom_field_key ) {
+	return '_my_custom_silent-publish';
+}
+`
+
+
+== Changelog ==
+
+= 2.0 =
+* Re-implemented entire approach
+* Allow overriding of custom field used via 'silent_publish_meta_key' filter
+* Add class of 'c2c-silent-publish' to admin UI div containing checkbox
+* Add filter 'silent_publish_meta_key' to allow overriding custom field key name
+* Remove function add_js(), admin_menu(), add_meta_box()
+* Add functions init(), add_ui(), save_silent_publish_status(), load_textdomain()
+* Add true localization support
+* Move definition of strings into init() and properly support localization
+* Full support for localization
+* Store plugin instance in global variable, $c2c_silent_publish, to allow for external manipulation
+* Remove docs from top of plugin file (all that and more are in readme.txt)
+* Minor code reformatting (spacing)
+* Add PHPDoc documentation
+* Note compatibility with WP 2.9+, 3.0+
+* Drop compatibility with versions of WP older than 2.9
+* Update screenshots
+* Update copyright date
+* Add package info to top of plugin file
+* Add Changelog, Frequently Asked Questions, Filters, and Upgrade Notice sections to readme.txt
+* Add .pot file
+* Add to plugin repository
+
+= 1.0 =
+* Initial release
+
+
+== Upgrade Notice ==
+
+= 2.0 =
+Recommended major update! Highlights: re-implemented; added filters for customization; localization support; use hidden custom field; misc non-functionality changes; verified WP 3.0 compatibility; dropped compatibility with version of WP older than 2.9.
