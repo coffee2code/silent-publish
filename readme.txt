@@ -4,8 +4,8 @@ Donate link: http://coffee2code.com/donate
 Tags: publish, ping, no ping, trackback, update services, post, coffee2code
 Requires at least: 2.9
 Tested up to: 3.0.1
-Stable tag: 2.0
-Version: 2.0
+Stable tag: 2.0.1
+Version: 2.0.1
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
@@ -68,6 +68,9 @@ function override_silent_publish_key( $custom_field_key ) {
 
 == Changelog ==
 
+= 2.0.1 =
+* Bugfix for auto-save losing value of silent publish status
+
 = 2.0 =
 * Re-implemented entire approach
 * Allow overriding of custom field used via 'silent_publish_meta_key' filter
@@ -96,6 +99,9 @@ function override_silent_publish_key( $custom_field_key ) {
 
 
 == Upgrade Notice ==
+
+= 2.0.1 =
+Recommended bugfix release.  Fixes bug where auto-save can lose value of silent publish status.
 
 = 2.0 =
 Recommended major update! Highlights: re-implemented; added filters for customization; localization support; use hidden custom field; misc non-functionality changes; verified WP 3.0 compatibility; dropped compatibility with version of WP older than 2.9.

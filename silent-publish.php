@@ -2,11 +2,11 @@
 /**
  * @package Silent_Publish
  * @author Scott Reilly
- * @version 2.0
+ * @version 2.0.1
  */
 /*
 Plugin Name: Silent Publish
-Version: 2.0
+Version: 2.0.1
 Plugin URI: http://coffee2code.com/wp-plugins/silent-publish/
 Author: Scott Reilly
 Author URI: http://coffee2code.com
@@ -113,8 +113,10 @@ class c2c_SilentPublish {
 	 * @return array The unmodified $data
 	 */
 	function save_silent_publish_status( $data, $postarr ) {
-		$new_value = isset( $postarr[$this->field] ) ? $postarr[$this->field] : '';
-		update_post_meta( $postarr['ID'], $this->meta_key, $new_value );
+		if ( isset( $postarr['post_type'] ) && ( 'revision' != $postarr['post_type'] ) ) {
+			$new_value = isset( $postarr[$this->field] ) ? $postarr[$this->field] : '';
+			update_post_meta( $postarr['ID'], $this->meta_key, $new_value );
+		}
 		return $data;
 	}
 
