@@ -3,9 +3,9 @@ Contributors: coffee2code
 Donate link: http://coffee2code.com/donate
 Tags: publish, ping, no ping, trackback, update services, post, coffee2code
 Requires at least: 2.9
-Tested up to: 3.0.1
-Stable tag: 2.0.1
-Version: 2.0.1
+Tested up to: 3.1
+Stable tag: 2.1
+Version: 2.1
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
@@ -23,6 +23,8 @@ While trackbacks and pingsbacks can already be disabled from the Add New Post/Pa
 If a post is silently published, a custom field '_silent_publish' for the post is set to a value of 1 as a means of recording the action.  However, this value is not then used for any purpose as of yet.  Nor is the custom field unset or changed if the post is later re-published.
 
 Also see my "Stealth Publish" plugin if you want make a new post but prevent it from appearing on the front page of your blog and not appear in feeds.  (That plugin incorporates this plugin's functionality, so you won't need both.)
+
+Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [Author Homepage](http://coffee2code.com)
 
 
 == Installation ==
@@ -68,6 +70,13 @@ function override_silent_publish_key( $custom_field_key ) {
 
 == Changelog ==
 
+= 2.1 =
+* Switch from object instantiation to direct class invocation
+* Explicitly declare all functions public static and class variables private static
+* Remove setting unnecessary variable
+* Note compatibility through WP 3.1+
+* Update copyright date (2011)
+
 = 2.0.1 =
 * Bugfix for auto-save losing value of silent publish status
 
@@ -99,6 +108,9 @@ function override_silent_publish_key( $custom_field_key ) {
 
 
 == Upgrade Notice ==
+
+= 2.1 =
+Minor update: implementation changes; noted compatibility with WP 3.1+ and updated copyright date.
 
 = 2.0.1 =
 Recommended bugfix release.  Fixes bug where auto-save can lose value of silent publish status.
