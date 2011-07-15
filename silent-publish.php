@@ -2,26 +2,26 @@
 /**
  * @package Silent_Publish
  * @author Scott Reilly
- * @version 2.1
+ * @version 2.2
  */
 /*
 Plugin Name: Silent Publish
-Version: 2.1
+Version: 2.2
 Plugin URI: http://coffee2code.com/wp-plugins/silent-publish/
 Author: Scott Reilly
 Author URI: http://coffee2code.com
 Text Domain: silent-publish
 Description: Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
-Compatible with WordPress 2.9+, 3.0+, 3.1+
+Compatible with WordPress 2.9+, 3.0+, 3.1+, 3.2+.
 
 =>> Read the accompanying readme.txt file for instructions and documentation.
 =>> Also, visit the plugin's homepage for additional information and updates.
 =>> Or visit: http://wordpress.org/extend/plugins/silent-publish/
 
 TODO:
+	* Update screenshots for WP 3.2
 	* Allow for silent publish to be enabled by default
-
 */
 
 /*
@@ -40,9 +40,10 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRA
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-if ( !class_exists( 'c2c_SilentPublish' ) ) :
+if ( ! class_exists( 'c2c_SilentPublish' ) ) :
 
 class c2c_SilentPublish {
+
 	private static $field             = 'silent_publish';
 	private static $meta_key          = '_silent-publish'; // Filterable via 'silent_publish_meta_key' filter
 	private static $textdomain        = 'silent-publish';
@@ -94,8 +95,13 @@ class c2c_SilentPublish {
 		global $post;
 		if ( 'publish' == $post->post_status )
 			return;
-		$value = get_post_meta( $post->ID, self::$meta_key, true );
+
+		if ( apply_filters( 'c2c_silent_publish_default', false, $post ) )
+			$value = '1';
+		else
+			$value = get_post_meta( $post->ID, self::$meta_key, true );
 		$checked = checked( $value, '1', false );
+
 		echo "<div class='misc-pub-section'><label class='selectit c2c-silent-publish' for='" . self::$field . "' title='";
 		esc_attr_e( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', self::$textdomain );
 		echo "'>\n";
@@ -114,7 +120,8 @@ class c2c_SilentPublish {
 	 * @return array The unmodified $data
 	 */
 	public static function save_silent_publish_status( $data, $postarr ) {
-		if ( isset( $postarr['post_type'] ) && ( 'revision' != $postarr['post_type'] ) ) {
+		if ( isset( $postarr['post_type'] ) && ( 'revision' != $postarr['post_type'] ) &&
+			! ( isset( $_POST['action'] ) && 'inline-save' == $_POST['action'] ) ) {
 			$new_value = isset( $postarr[self::$field] ) ? $postarr[self::$field] : '';
 			update_post_meta( $postarr['ID'], self::$meta_key, $new_value );
 		}
