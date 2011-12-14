@@ -3,9 +3,9 @@ Contributors: coffee2code
 Donate link: http://coffee2code.com/donate
 Tags: publish, ping, no ping, trackback, update services, post, coffee2code
 Requires at least: 2.9
-Tested up to: 3.2
-Stable tag: 2.2
-Version: 2.2
+Tested up to: 3.3
+Stable tag: 2.2.1
+Version: 2.2.1
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
@@ -24,7 +24,7 @@ If a post is silently published, a custom field '_silent_publish' for the post i
 
 Also see my "Stealth Publish" plugin if you want make a new post but prevent it from appearing on the front page of your blog and not appear in feeds.  (That plugin incorporates this plugin's functionality, so you won't need both.)
 
-Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [Author Homepage](http://coffee2code.com)
+Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [Plugin Directory Page](http://wordpress.org/extend/plugins/silent-publish/) | [Author Homepage](http://coffee2code.com)
 
 
 == Installation ==
@@ -90,6 +90,18 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 == Changelog ==
 
+= 2.2.1 =
+* Add version() to return plugin's version
+* Update readme with example and documentation for new filter
+* Note compatibility through WP 3.3+
+* Update screenshots for WP 3.3
+* Use DIRECTORY_SEPARATOR instead of hardcoded '/'
+* Create 'lang' subdirectory and move .pot file into it
+* Regenerate .pot
+* Add 'Domain Path' directive to top of main plugin file
+* Add link to plugin directory page to readme.txt
+* Update copyright date (2012)
+
 = 2.2 =
 * Fix bug where using Quick Edit on post caused Silent Publish status to be cleared
 * Add filter 'c2c_silent_publish_default' to allow configuring checkbox to be checked by default
@@ -135,6 +147,9 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 
 == Upgrade Notice ==
+
+= 2.2.1 =
+Minor update: moved .pot file into 'lang' subdirectory; noted compatibility through WP 3.3+.
 
 = 2.2 =
 Minor update: fixed bug with losing Silent Publish status during Quick Edit; added new filter to allow making checkbox checked by default; noted compatibility through WP 3.2+
