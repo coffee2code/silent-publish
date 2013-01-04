@@ -2,10 +2,12 @@
 Contributors: coffee2code
 Donate link: http://coffee2code.com/donate
 Tags: publish, ping, no ping, trackback, update services, post, coffee2code
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 2.9
-Tested up to: 3.3
-Stable tag: 2.2.1
-Version: 2.2.1
+Tested up to: 3.5
+Stable tag: 2.3
+Version: 2.3
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
@@ -28,6 +30,7 @@ Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [P
 
 
 == Installation ==
+1. Whether installing or updating, whether this plugin or any other, it is always advisable to back-up your data before starting
 1. Unzip `silent-publish.zip` inside the `/wp-content/plugins/` directory for your site (or install via the built-in WordPress plugin installer)
 1. Activate the plugin through the 'Plugins' admin menu in WordPress
 1. Click the 'Publish silently?' checkbox when publishing a post to prevent triggering of pingbacks, trackbacks, or notifications to update services.
@@ -54,9 +57,9 @@ Yes. See the Filters section (under Other Notes) and look for the example using 
 
 The plugin is further customizable via two filters. Typically, these customizations would be put into your active theme's functions.php file, or used by another plugin.
 
-= silent_publish_meta_key (filter) =
+= c2c_silent_publish_meta_key (filter) =
 
-The 'silent_publish_meta_key' filter allows you to override the name of the custom field key used by the plugin to store a post's silent publish status.  This isn't a common need.
+The 'c2c_silent_publish_meta_key' filter allows you to override the name of the custom field key used by the plugin to store a post's silent publish status.  This isn't a common need.
 
 Arguments:
 
@@ -65,7 +68,7 @@ Arguments:
 Example:
 
 `
-add_filter( 'silent_publish_meta_key', 'override_silent_publish_key' );
+add_filter( 'c2c_silent_publish_meta_key', 'override_silent_publish_key' );
 function override_silent_publish_key( $custom_field_key ) {
 	return '_my_custom_silent-publish';
 }
@@ -89,6 +92,23 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 
 == Changelog ==
+
+= 2.3 =
+* Deprecate 'silent_publish_meta_key' filter in favor of 'c2c_silent_publish_meta_key' (but keep it temporarily for backwards compatibility)
+* Don't store the fact that a post was silently published in post meta if the meta key value is blank or false
+	(effectively allows filter to disable custom field usage)
+* Remove private static $textdomain and its use; include textdomain name as string in translation calls
+* Remove function `load_textdomain()`
+* Add check to prevent execution of code if file is directly accessed
+* Re-license as GPLv2 or later (from X11)
+* Add 'License' and 'License URI' header tags to readme.txt and plugin file
+* Regenerate .pot
+* Minor improvements to inline and readme documentation
+* Minor code reformatting
+* Remove ending PHP close tag
+* Note compatibility through WP 3.5+
+* Tweak installation instructions in readme.txt
+* Update copyright date (2013)
 
 = 2.2.1 =
 * Add version() to return plugin's version
@@ -147,6 +167,9 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 
 == Upgrade Notice ==
+
+= 2.3 =
+Recommended update: renamed and deprecated a filter; noted compatibility through WP 3.5+; and more.
 
 = 2.2.1 =
 Minor update: moved .pot file into 'lang' subdirectory; noted compatibility through WP 3.3+.
