@@ -2,11 +2,11 @@
 /**
  * @package Silent_Publish
  * @author Scott Reilly
- * @version 2.3
+ * @version 2.4
  */
 /*
 Plugin Name: Silent Publish
-Version: 2.3
+Version: 2.4
 Plugin URI: http://coffee2code.com/wp-plugins/silent-publish/
 Author: Scott Reilly
 Author URI: http://coffee2code.com/
@@ -16,15 +16,20 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Description: Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
-Compatible with WordPress 2.9+ through 3.5+.
+Compatible with WordPress 3.6+ through 3.8+.
+
+TODO:
+	* Make it work for direct, non-UI calls to publish_post()
+	* Add class function get_meta_key() as getter for meta_key and
+	  filter on request rather than init to allow late filtering
 
 =>> Read the accompanying readme.txt file for instructions and documentation.
 =>> Also, visit the plugin's homepage for additional information and updates.
-=>> Or visit: http://wordpress.org/extend/plugins/silent-publish/
+=>> Or visit: http://wordpress.org/plugins/silent-publish/
 */
 
 /*
-	Copyright (c) 2009-2013 by Scott Reilly (aka coffee2code)
+	Copyright (c) 2009-2014 by Scott Reilly (aka coffee2code)
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -33,7 +38,7 @@ Compatible with WordPress 2.9+ through 3.5+.
 
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 	GNU General Public License for more details.
 
 	You should have received a copy of the GNU General Public License
@@ -56,7 +61,7 @@ class c2c_SilentPublish {
 	 * @since 2.2.1
 	 */
 	public static function version() {
-		return '2.3';
+		return '2.4';
 	}
 
 	/**
@@ -93,6 +98,9 @@ class c2c_SilentPublish {
 	/**
 	 * Draws the UI to prompt user if silent publish should be enabled for the post.
 	 *
+	 * Displays the UI outright if the post is not published. If published, it either
+	 * displays hidden when the meta field has a value, or not at all.
+	 *
 	 * @since 2.0
 	 * @uses apply_filters() Calls 'c2c_silent_publish_default' with silent publish state default (false)
 	 *
@@ -101,31 +109,46 @@ class c2c_SilentPublish {
 	public static function add_ui() {
 		global $post;
 
-		if ( 'publish' == $post->post_status )
-			return;
+		$hide = ( 'publish' == $post->post_status );
 
-		if ( (bool) apply_filters( 'c2c_silent_publish_default', false, $post ) )
+		if ( (bool) apply_filters( 'c2c_silent_publish_default', false, $post ) ) {
 			$value = '1';
-		else
+		} else {
 			$value = get_post_meta( $post->ID, self::$meta_key, true );
+		}
 
 		$checked = checked( $value, '1', false );
 
-		echo "<div class='misc-pub-section'><label class='selectit c2c-silent-publish' for='" . self::$field . "' title='";
-		esc_attr_e( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' );
-		echo "'>\n";
-		echo "<input id='" . self::$field . "' type='checkbox' $checked value='1' name='" . self::$field . "' />\n";
-		_e( 'Silent publish?', 'silent-publish' );
-		echo '</label></div>' . "\n";
+		if ( ! $hide ) {
+			echo "<div class='misc-pub-section'><label class='selectit c2c-silent-publish' for='" . self::$field . "' title='";
+			esc_attr_e( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' );
+			echo "'>\n";
+		}
+
+		if ( ! $hide || $checked ) {
+			if ( $hide ) {
+				$type = 'hidden';
+				$checked = '';
+			} else {
+				$type = 'checkbox';
+			}
+
+			echo "<input id='" . self::$field . "' type='$type' $checked value='1' name='" . self::$field . "' />\n";
+		}
+
+		if ( ! $hide ) {
+			_e( 'Silent publish?', 'silent-publish' );
+			echo '</label></div>' . "\n";
+		}
 	}
 
 	/**
-	 * Update the value of the silent publish custom field, but only if it is supplied.
+	 * Update the value of the silent publish custom field.
 	 *
 	 * @since 2.0
 	 *
-	 * @param array $data Data
-	 * @param array $postarr Array of post fields and values for post being saved
+	 * @param  array $data    Data
+	 * @param  array $postarr Array of post fields and values for post being saved
 	 * @return array The unmodified $data
 	 */
 	public static function save_silent_publish_status( $data, $postarr ) {
@@ -135,8 +158,14 @@ class c2c_SilentPublish {
 			 ! ( isset( $_POST['action'] ) && 'inline-save' == $_POST['action'] )
 			) {
 			$new_value = isset( $postarr[ self::$field ] ) ? $postarr[ self::$field ] : '';
-			update_post_meta( $postarr['ID'], self::$meta_key, $new_value );
+
+			if ( empty( $new_value ) ) {
+				delete_post_meta( $postarr['ID'], self::$meta_key );
+			} else {
+				update_post_meta( $postarr['ID'], self::$meta_key, $new_value );
+			}
 		}
+
 		return $data;
 	}
 
@@ -149,7 +178,7 @@ class c2c_SilentPublish {
 	 *
 	 * @since 1.0
 	 *
-	 * @param int $post_id Post ID
+	 * @param  int $post_id Post ID
 	 * @return void
 	 */
 	public static function publish_post( $post_id ) {
@@ -161,8 +190,10 @@ class c2c_SilentPublish {
 			define( 'WP_IMPORTING', true );
 
 			// If a meta key name is defined, then set its value to 1
-			if ( self::$meta_key )
+			if ( self::$meta_key ) {
 				update_post_meta( $post_id, self::$meta_key, 1 );
+			}
+
 		}
 	}
 
