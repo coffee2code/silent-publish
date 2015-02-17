@@ -1,35 +1,35 @@
 <?php
 /**
+ * Plugin Name: Silent Publish
+ * Version:     2.4.1
+ * Plugin URI:  http://coffee2code.com/wp-plugins/silent-publish/
+ * Author:      Scott Reilly
+ * Author URI:  http://coffee2code.com/
+ * Text Domain: silent-publish
+ * Domain Path: /lang/
+ * License:     GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * Description: Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
+ *
+ * Compatible with WordPress 3.6+ through 4.1+.
+ *
+ * =>> Read the accompanying readme.txt file for instructions and documentation.
+ * =>> Also, visit the plugin's homepage for additional information and updates.
+ * =>> Or visit: https://wordpress.org/plugins/silent-publish/
+ *
  * @package Silent_Publish
  * @author Scott Reilly
- * @version 2.4
+ * @version 2.4.1
  */
-/*
-Plugin Name: Silent Publish
-Version: 2.4
-Plugin URI: http://coffee2code.com/wp-plugins/silent-publish/
-Author: Scott Reilly
-Author URI: http://coffee2code.com/
-Text Domain: silent-publish
-Domain Path: /lang/
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Description: Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
-
-Compatible with WordPress 3.6+ through 3.8+.
-
-TODO:
-	* Make it work for direct, non-UI calls to publish_post()
-	* Add class function get_meta_key() as getter for meta_key and
-	  filter on request rather than init to allow late filtering
-
-=>> Read the accompanying readme.txt file for instructions and documentation.
-=>> Also, visit the plugin's homepage for additional information and updates.
-=>> Or visit: http://wordpress.org/plugins/silent-publish/
-*/
 
 /*
-	Copyright (c) 2009-2014 by Scott Reilly (aka coffee2code)
+ * TODO:
+ * - Make it work for direct, non-UI calls to publish_post()
+ * - Add class function get_meta_key() as getter for meta_key and filter on request rather than init to allow late filtering
+ */
+
+/*
+	Copyright (c) 2009-2015 by Scott Reilly (aka coffee2code)
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -61,7 +61,7 @@ class c2c_SilentPublish {
 	 * @since 2.2.1
 	 */
 	public static function version() {
-		return '2.4';
+		return '2.4.1';
 	}
 
 	/**
@@ -80,13 +80,13 @@ class c2c_SilentPublish {
 	public static function do_init() {
 
 		// Load textdomain
-		load_plugin_textdomain( 'silent-publish', false, basename( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'lang' );
+		load_plugin_textdomain( 'silent-publish', false, basename( __DIR__ ) . DIRECTORY_SEPARATOR . 'lang' );
 
 		// Deprecated as of 2.3
 		self::$meta_key = apply_filters( 'silent_publish_meta_key', self::$meta_key );
 
-		// Apply custom filter to obtain meta key name. Leave blank to disable saving the silent
-		// publish status in a custom field.
+		// Apply custom filter to obtain meta key name. Use blank string to disable
+		// saving the silent publish status in a custom field.
 		self::$meta_key = esc_attr( apply_filters( 'c2c_silent_publish_meta_key', self::$meta_key ) );
 
 		// Register hooks
@@ -103,8 +103,6 @@ class c2c_SilentPublish {
 	 *
 	 * @since 2.0
 	 * @uses apply_filters() Calls 'c2c_silent_publish_default' with silent publish state default (false)
-	 *
-	 * @return void (Text is echoed.)
 	 */
 	public static function add_ui() {
 		global $post;
@@ -179,7 +177,6 @@ class c2c_SilentPublish {
 	 * @since 1.0
 	 *
 	 * @param  int $post_id Post ID
-	 * @return void
 	 */
 	public static function publish_post( $post_id ) {
 

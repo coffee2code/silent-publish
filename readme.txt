@@ -5,8 +5,8 @@ Tags: publish, ping, no ping, trackback, update services, post, coffee2code
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.6
-Tested up to: 3.8
-Stable tag: 2.4
+Tested up to: 4.1
+Stable tag: 2.4.1
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
@@ -25,7 +25,7 @@ If a post is silently published, a custom field '_silent_publish' for the post i
 
 Also see my [Stealth Publish](http://wordpress.org/plugins/stealth-publish/) plugin if you want make a new post but prevent it from appearing on the front page of your blog and in feeds. (That plugin incorporates this plugin's functionality, so you won't need both.)
 
-Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [Plugin Directory Page](http://wordpress.org/plugins/silent-publish/) | [Author Homepage](http://coffee2code.com)
+Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [Plugin Directory Page](https://wordpress.org/plugins/silent-publish/) | [Author Homepage](http://coffee2code.com)
 
 
 == Installation ==
@@ -49,7 +49,7 @@ Perhaps for a particular post you don't want any external notifications sent out
 
 = Can I have the checkbox checked by default? =
 
-Yes. See the Filters section (under Other Notes) and look for the example using the 'c2c_silent_publish_default' filter. You'll have to put that code into your active theme's functions.php file.
+Yes. See the Filters section (under Other Notes) and look for the example using the 'c2c_silent_publish_default' filter. You'll have to put that code into your active theme's functions.php file or a mu-plugin file.
 
 = Does this plugin include unit tests? =
 
@@ -71,10 +71,10 @@ Arguments:
 Example:
 
 `
-add_filter( 'c2c_silent_publish_meta_key', 'override_silent_publish_key' );
 function override_silent_publish_key( $custom_field_key ) {
 	return '_my_custom_silent-publish';
 }
+add_filter( 'c2c_silent_publish_meta_key', 'override_silent_publish_key' );
 `
 
 = c2c_silent_publish_default (filter) =
@@ -95,6 +95,17 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 
 == Changelog ==
+
+= 2.4.1 (2015-02-17) =
+* Add more unit tests
+* Reformat plugin header
+* Use __DIR__ instead of `dirname(__FILE__)`
+* Note compatibility through WP 4.1+
+* Change documentation links to wp.org to be https
+* Minor documentation spacing changes throughout
+* Update copyright date (2015)
+* Add plugin icon
+* Regenerate .pot
 
 = 2.4 (2014-01-23) =
 * Fix to preserve silent publishing status when post gets re-edited after being published
@@ -185,6 +196,9 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 
 == Upgrade Notice ==
+
+= 2.4.1 =
+Trivial update: added more unit tests; noted compatibility through WP 4.1+; updated copyright date (2015); added plugin icon
 
 = 2.4 =
 Recommended minor update: fix to preserve silent publishing status after being published; added unit tests; noted compatibility through WP 3.8+; dropped compatibility with versions of WP older than 3.6
