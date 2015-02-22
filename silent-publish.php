@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Silent Publish
- * Version:     2.4.1
+ * Version:     2.4.2
  * Plugin URI:  http://coffee2code.com/wp-plugins/silent-publish/
  * Author:      Scott Reilly
  * Author URI:  http://coffee2code.com/
@@ -19,7 +19,7 @@
  *
  * @package Silent_Publish
  * @author Scott Reilly
- * @version 2.4.1
+ * @version 2.4.2
  */
 
 /*
@@ -61,7 +61,7 @@ class c2c_SilentPublish {
 	 * @since 2.2.1
 	 */
 	public static function version() {
-		return '2.4.1';
+		return '2.4.2';
 	}
 
 	/**
@@ -80,7 +80,7 @@ class c2c_SilentPublish {
 	public static function do_init() {
 
 		// Load textdomain
-		load_plugin_textdomain( 'silent-publish', false, basename( __DIR__ ) . DIRECTORY_SEPARATOR . 'lang' );
+		load_plugin_textdomain( 'silent-publish', false, basename( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'lang' );
 
 		// Deprecated as of 2.3
 		self::$meta_key = apply_filters( 'silent_publish_meta_key', self::$meta_key );
