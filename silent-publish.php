@@ -1,25 +1,24 @@
 <?php
 /**
  * Plugin Name: Silent Publish
- * Version:     2.4.2
+ * Version:     2.5
  * Plugin URI:  http://coffee2code.com/wp-plugins/silent-publish/
  * Author:      Scott Reilly
  * Author URI:  http://coffee2code.com/
  * Text Domain: silent-publish
- * Domain Path: /lang/
  * License:     GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Description: Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
  *
- * Compatible with WordPress 3.6+ through 4.1+.
+ * Compatible with WordPress 3.6+ through 4.5+.
  *
  * =>> Read the accompanying readme.txt file for instructions and documentation.
  * =>> Also, visit the plugin's homepage for additional information and updates.
  * =>> Or visit: https://wordpress.org/plugins/silent-publish/
  *
  * @package Silent_Publish
- * @author Scott Reilly
- * @version 2.4.2
+ * @author  Scott Reilly
+ * @version 2.5
  */
 
 /*
@@ -29,7 +28,7 @@
  */
 
 /*
-	Copyright (c) 2009-2015 by Scott Reilly (aka coffee2code)
+	Copyright (c) 2009-2016 by Scott Reilly (aka coffee2code)
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -52,8 +51,23 @@ if ( ! class_exists( 'c2c_SilentPublish' ) ) :
 
 class c2c_SilentPublish {
 
+	/**
+	 * The name of the associated form field.
+	 *
+	 * @access private
+	 * @var string
+	 */
 	private static $field    = 'silent_publish';
-	private static $meta_key = '_silent-publish'; // Filterable via 'c2c_silent_publish_meta_key' filter
+
+	/**
+	 * The name of the post meta key.
+	 *
+	 * Note: Filterable via 'c2c_silent_publish_meta_key' filter.
+	 *
+	 * @access private
+	 * @var string
+	 */
+	private static $meta_key = '_silent-publish';
 
 	/**
 	 * Returns version of the plugin.
@@ -61,7 +75,7 @@ class c2c_SilentPublish {
 	 * @since 2.2.1
 	 */
 	public static function version() {
-		return '2.4.2';
+		return '2.5';
 	}
 
 	/**
@@ -72,27 +86,34 @@ class c2c_SilentPublish {
 	}
 
 	/**
-	 * Register actions/filters and allow for configuration
+	 * Register actions/filters and allow for configuration.
 	 *
 	 * @since 2.0
-	 * @uses apply_filters() Calls 'c2c_silent_publish_meta_key' with default meta key name
+	 * @uses apply_filters() Calls 'c2c_silent_publish_meta_key' with default meta key name.
 	 */
 	public static function do_init() {
 
 		// Load textdomain
-		load_plugin_textdomain( 'silent-publish', false, basename( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'lang' );
+		load_plugin_textdomain( 'silent-publish' );
 
 		// Deprecated as of 2.3
-		self::$meta_key = apply_filters( 'silent_publish_meta_key', self::$meta_key );
+		$meta_key = apply_filters( 'silent_publish_meta_key', self::$meta_key );
 
 		// Apply custom filter to obtain meta key name. Use blank string to disable
 		// saving the silent publish status in a custom field.
-		self::$meta_key = esc_attr( apply_filters( 'c2c_silent_publish_meta_key', self::$meta_key ) );
+		$meta_key = apply_filters( 'c2c_silent_publish_meta_key', $meta_key );
 
-		// Register hooks
+		// Only override the meta key name if one was specified. Otherwise the
+		// default remains (since a meta key is necessary).
+		if ( $meta_key ) {
+			self::$meta_key = $meta_key;
+		}
+
+		// Register hooks.
 		add_action( 'post_submitbox_misc_actions', array( __CLASS__, 'add_ui' ) );
 		add_filter( 'wp_insert_post_data',         array( __CLASS__, 'save_silent_publish_status' ), 2, 2 );
 		add_action( 'publish_post',                array( __CLASS__, 'publish_post' ), 1, 1 );
+
 	}
 
 	/**
@@ -118,7 +139,7 @@ class c2c_SilentPublish {
 		$checked = checked( $value, '1', false );
 
 		if ( ! $hide ) {
-			echo "<div class='misc-pub-section'><label class='selectit c2c-silent-publish' for='" . self::$field . "' title='";
+			echo "<div class='misc-pub-section'><label class='selectit c2c-silent-publish' for='" . esc_attr( self::$field ) . "' title='";
 			esc_attr_e( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' );
 			echo "'>\n";
 		}
@@ -131,7 +152,7 @@ class c2c_SilentPublish {
 				$type = 'checkbox';
 			}
 
-			echo "<input id='" . self::$field . "' type='$type' $checked value='1' name='" . self::$field . "' />\n";
+			echo "<input id='" . esc_attr( self::$field ) . "' type='$type' $checked value='1' name='" . esc_attr( self::$field ) . "' />\n";
 		}
 
 		if ( ! $hide ) {
@@ -145,9 +166,10 @@ class c2c_SilentPublish {
 	 *
 	 * @since 2.0
 	 *
-	 * @param  array $data    Data
-	 * @param  array $postarr Array of post fields and values for post being saved
-	 * @return array The unmodified $data
+	 * @param  array $data    Data.
+	 * @param  array $postarr Array of post fields and values for post being saved.
+	 *
+	 * @return array The unmodified $data.
 	 */
 	public static function save_silent_publish_status( $data, $postarr ) {
 		if ( self::$meta_key &&
@@ -155,12 +177,11 @@ class c2c_SilentPublish {
 			 ( 'revision' != $postarr['post_type'] ) &&
 			 ! ( isset( $_POST['action'] ) && 'inline-save' == $_POST['action'] )
 			) {
-			$new_value = isset( $postarr[ self::$field ] ) ? $postarr[ self::$field ] : '';
-
-			if ( empty( $new_value ) ) {
-				delete_post_meta( $postarr['ID'], self::$meta_key );
+			// Update the value of the silent publish custom field.
+			if ( isset( $postarr[ self::$field ] ) && $postarr[ self::$field ] ) {
+				update_post_meta( $postarr['ID'], self::$meta_key, 1 );
 			} else {
-				update_post_meta( $postarr['ID'], self::$meta_key, $new_value );
+				delete_post_meta( $postarr['ID'], self::$meta_key );
 			}
 		}
 
@@ -176,7 +197,7 @@ class c2c_SilentPublish {
 	 *
 	 * @since 1.0
 	 *
-	 * @param  int $post_id Post ID
+	 * @param int $post_id Post ID.
 	 */
 	public static function publish_post( $post_id ) {
 

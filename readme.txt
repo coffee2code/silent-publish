@@ -5,8 +5,8 @@ Tags: publish, ping, no ping, trackback, update services, post, coffee2code
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 3.6
-Tested up to: 4.1
-Stable tag: 2.4.2
+Tested up to: 4.5
+Stable tag: 2.5
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
@@ -23,7 +23,7 @@ While trackbacks and pingsbacks can already be disabled from the Add New Post/Pa
 
 If a post is silently published, a custom field '_silent_publish' for the post is set to a value of 1 as a means of recording the action. However, this value is not then used for any purpose as of yet. Nor is the custom field unset or changed if the post is later re-published.
 
-Also see my [Stealth Publish](http://wordpress.org/plugins/stealth-publish/) plugin if you want make a new post but prevent it from appearing on the front page of your blog and in feeds. (That plugin incorporates this plugin's functionality, so you won't need both.)
+Also see my [Stealth Publish](https://wordpress.org/plugins/stealth-publish/) plugin if you want make a new post but prevent it from appearing on the front page of your blog and in feeds. (That plugin incorporates this plugin's functionality, so you won't need both.)
 
 Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [Plugin Directory Page](https://wordpress.org/plugins/silent-publish/) | [Author Homepage](http://coffee2code.com)
 
@@ -71,6 +71,12 @@ Arguments:
 Example:
 
 `
+/**
+ * Defines a custom meta key to be used by Silent Publish.
+ *
+ * @param string $custom_field_key The default custom field key name.
+ * @return string
+ */
 function override_silent_publish_key( $custom_field_key ) {
 	return '_my_custom_silent-publish';
 }
@@ -95,6 +101,24 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 
 == Changelog ==
+
+= 2.5 (2016-03-28) =
+Highlights:
+* This release adds support for language packs and has some minor behind-the-scenes changes.
+
+Details:
+* Change: Run `esc_attr()` on the field name before display for safety.
+* Change: Don't run `esc_attr()` on meta key name as it need not be so restrictive (and isn't for display).
+* Change: Add support for language packs:
+    * Don't load textdomain from file.
+    * Remove 'Domain Path' from plugin header.
+    * Remove .pot file and /lang subdirectory.
+* New: Add LICENSE file.
+* New: Add empty index.php to prevent files from being listed if web server has enabled directory listings.
+* Change: Add docblocks for class variables.
+* Change: Add docblock to example code.
+* Change: Note compatibility through WP 4.5+.
+* Change: Update copyright date (2016).
 
 = 2.4.2 (2015-02-21) =
 * Revert to using `dirname(__FILE__)`; __DIR__ is only supported in PHP 5.3+
@@ -199,6 +223,9 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 
 == Upgrade Notice ==
+
+= 2.5 =
+Minor release: improved support for localization; verified compatibility through WP 4.5; updated copyright date (2016)
 
 = 2.4.2 =
 Bugfix release (for sites using the ancient PHP 5.2): revert use of __DIR__ constant since it wasn't introduced until PHP 5.3

@@ -1,43 +1,45 @@
 <?php
 
+defined( 'ABSPATH' ) or die();
+
 class Silent_Publish_Test extends WP_UnitTestCase {
 
 	protected $field    = 'silent_publish';
 	protected $meta_key = '_silent-publish';
 
 
+	//
+	//
+	// TESTS
+	//
+	//
 
-	/*
-	 * TESTS
-	 */
 
-
-
-	function test_class_exists() {
+	public function test_class_exists() {
 		$this->assertTrue( class_exists( 'c2c_SilentPublish' ) );
 	}
 
-	function test_version() {
-		$this->assertEquals( '2.4.2', c2c_SilentPublish::version() );
+	public function test_version() {
+		$this->assertEquals( '2.5', c2c_SilentPublish::version() );
 	}
 
-	function test_init_action_triggers_do_init() {
+	public function test_init_action_triggers_do_init() {
 		$this->assertNotFalse( has_filter( 'init', array( 'c2c_SilentPublish', 'do_init' ) ) );
 	}
 
-	function test_post_submitbox_misc_action_triggers_add_ui() {
+	public function test_post_submitbox_misc_action_triggers_add_ui() {
 		$this->assertNotFalse( has_action( 'post_submitbox_misc_actions', array( 'c2c_SilentPublish', 'add_ui' ) ) );
 	}
 
-	function test_wp_insert_post_data_filter_triggers_save_silent_publish_status() {
+	public function test_wp_insert_post_data_filter_triggers_save_silent_publish_status() {
 		$this->assertNotFalse( has_filter( 'wp_insert_post_data', array( 'c2c_SilentPublish', 'save_silent_publish_status' ), 2, 2 ) );
 	}
 
-	function test_publish_post_action_triggers_publish_post() {
+	public function test_publish_post_action_triggers_publish_post() {
 		$this->assertNotFalse( has_action( 'publish_post', array( 'c2c_SilentPublish', 'publish_post' ), 1, 1 ) );
 	}
 
-	function test_non_silently_published_post_publishes_without_silencing() {
+	public function test_non_silently_published_post_publishes_without_silencing() {
 		$post_id = $this->factory->post->create( array( 'post_status' => 'draft' ) );
 
 		wp_publish_post( $post_id );
@@ -45,7 +47,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assertFalse( defined( 'WP_IMPORTING' ) );
 	}
 
-	function test_saving_post_set_as_silently_published_retains_meta() {
+	public function test_saving_post_set_as_silently_published_retains_meta() {
 		$post_id = $this->factory->post->create();
 		update_post_meta( $post_id, $this->meta_key, '1' );
 
@@ -57,7 +59,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assertEquals( '1', get_post_meta( $post_id, $this->meta_key, true ) );
 	}
 
-	function test_saving_post_without_being_silently_published_deletes_meta() {
+	public function test_saving_post_without_being_silently_published_deletes_meta() {
 		$post_id = $this->factory->post->create();
 		update_post_meta( $post_id, $this->meta_key, '1' );
 
@@ -70,7 +72,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assertFalse( metadata_exists( 'post', $post_id, $this->meta_key ) );
 	}
 
-	function test_saving_post_explicitly_not_being_silently_published_deletes_meta() {
+	public function test_saving_post_explicitly_not_being_silently_published_deletes_meta() {
 		$post_id = $this->factory->post->create();
 		update_post_meta( $post_id, $this->meta_key, '1' );
 
@@ -86,7 +88,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 	/* This test must be last since it results in WP_IMPORTING constant being set. */
 
-	function test_silently_published_post_publishes_silently() {
+	public function test_silently_published_post_publishes_silently() {
 		$post_id = $this->factory->post->create( array( 'post_status' => 'draft' ) );
 
 		// Publishing assumes it's coming from the edit page UI where the
