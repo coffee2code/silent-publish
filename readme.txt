@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: publish, ping, no ping, trackback, update services, post, coffee2code
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Requires at least: 3.6
+Requires at least: 4.6
 Tested up to: 4.7
 Stable tag: 2.5
 
@@ -110,6 +110,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
     * Enable more error output for unit tests
 * Change: Minor inline code documentation formatting changes (punctuation, verb tense)
 * Change: Note compatibility through WP 4.7+
+* Change: Remove support for WordPress older than 4.6 (should still work for earlier versions back to WP 3.6)
 * Change: Update copyright date (2017)
 
 = 2.5 (2016-03-28) =
