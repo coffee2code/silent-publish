@@ -102,6 +102,10 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 == Changelog ==
 
+= () =
+* Change: Update unit test bootstrap
+    * Default `WP_TESTS_DIR` to `/tmp/wordpress-tests-lib` rather than erroring out if not defined via environment variable
+
 = 2.5 (2016-03-28) =
 Highlights:
 * This release adds support for language packs and has some minor behind-the-scenes changes.
