@@ -108,6 +108,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * Change: Update unit test bootstrap
     * Default `WP_TESTS_DIR` to `/tmp/wordpress-tests-lib` rather than erroring out if not defined via environment variable
     * Enable more error output for unit tests
+* Change: Minor inline code documentation formatting changes (punctuation, verb tense)
 * Change: Note compatibility through WP 4.7+
 * Change: Update copyright date (2017)
 

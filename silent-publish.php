@@ -59,14 +59,14 @@ class c2c_SilentPublish {
 	private static $field    = 'silent_publish';
 
 	/**
-	 * Prevent instantiation.
+	 * Prevents instantiation.
 	 *
 	 * @since 2.6
 	 */
 	private function __construct() {}
 
 	/**
-	 * Prevent unserializing an instance.
+	 * Prevents unserializing an instance.
 	 *
 	 * @since 2.6
 	 */
@@ -82,28 +82,26 @@ class c2c_SilentPublish {
 	}
 
 	/**
-	 * Initializer
+	 * Initializer.
 	 */
 	public static function init() {
 		add_action( 'init', array( __CLASS__, 'do_init' ) );
 	}
 
 	/**
-	 * Register actions/filters and allow for configuration.
+	 * Performs initialization tasks such as registering hooks.
 	 *
 	 * @since 2.0
 	 * @uses apply_filters() Calls 'c2c_silent_publish_meta_key' with default meta key name.
 	 */
 	public static function do_init() {
-
-		// Load textdomain
+		// Load textdomain.
 		load_plugin_textdomain( 'silent-publish' );
 
 		// Register hooks.
 		add_action( 'post_submitbox_misc_actions', array( __CLASS__, 'add_ui' ) );
 		add_filter( 'wp_insert_post_data',         array( __CLASS__, 'save_silent_publish_status' ), 2, 2 );
 		add_action( 'publish_post',                array( __CLASS__, 'publish_post' ), 1, 1 );
-
 	}
 
 	/**
@@ -128,7 +126,7 @@ class c2c_SilentPublish {
 	}
 
 	/**
-	 * Draws the UI to prompt user if silent publish should be enabled for the post.
+	 * Outputs the UI to prompt user if silent publish should be enabled for the post.
 	 *
 	 * Displays the UI outright if the post is not published. If published, it either
 	 * displays hidden when the meta field has a value, or not at all.
@@ -173,7 +171,7 @@ class c2c_SilentPublish {
 	}
 
 	/**
-	 * Update the value of the silent publish custom field.
+	 * Updates the value of the silent publish custom field.
 	 *
 	 * @since 2.0
 	 *
@@ -208,7 +206,7 @@ class c2c_SilentPublish {
 	/**
 	 * Handles silent publishing if the associated checkbox is checked.
 	 *
-	 * Save the fact this post was silently published
+	 * Saves the fact this post was silently published.
 	 * This does not attempt to clear this value if the post later gets republished without silent publishing.
 	 * Also, this stored value is not currently used, merely saved.
 	 *
