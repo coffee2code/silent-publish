@@ -70,6 +70,20 @@ class c2c_SilentPublish {
 	private static $meta_key = '_silent-publish';
 
 	/**
+	 * Prevent instantiation.
+	 *
+	 * @since 2.6
+	 */
+	private function __construct() {}
+
+	/**
+	 * Prevent unserializing an instance.
+	 *
+	 * @since 2.6
+	 */
+	private function __wakeup() {}
+
+	/**
 	 * Returns version of the plugin.
 	 *
 	 * @since 2.2.1

@@ -103,6 +103,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 == Changelog ==
 
 = () =
+* Change: Prevent object instantiation of the class
 * Change: Update unit test bootstrap
     * Default `WP_TESTS_DIR` to `/tmp/wordpress-tests-lib` rather than erroring out if not defined via environment variable
     * Enable more error output for unit tests
