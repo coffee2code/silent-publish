@@ -106,6 +106,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * Change: Update unit test bootstrap
     * Default `WP_TESTS_DIR` to `/tmp/wordpress-tests-lib` rather than erroring out if not defined via environment variable
     * Enable more error output for unit tests
+* Change: Update copyright date (2017)
 
 = 2.5 (2016-03-28) =
 Highlights:
