@@ -24,7 +24,6 @@
 /*
  * TODO:
  * - Make it work for direct, non-UI calls to publish_post()
- * - Add class function get_meta_key() as getter for meta_key and filter on request rather than init to allow late filtering
  */
 
 /*
@@ -58,16 +57,6 @@ class c2c_SilentPublish {
 	 * @var string
 	 */
 	private static $field    = 'silent_publish';
-
-	/**
-	 * The name of the post meta key.
-	 *
-	 * Note: Filterable via 'c2c_silent_publish_meta_key' filter.
-	 *
-	 * @access private
-	 * @var string
-	 */
-	private static $meta_key = '_silent-publish';
 
 	/**
 	 * Prevent instantiation.
@@ -110,24 +99,32 @@ class c2c_SilentPublish {
 		// Load textdomain
 		load_plugin_textdomain( 'silent-publish' );
 
-		// Deprecated as of 2.3
-		$meta_key = apply_filters( 'silent_publish_meta_key', self::$meta_key );
-
-		// Apply custom filter to obtain meta key name. Use blank string to disable
-		// saving the silent publish status in a custom field.
-		$meta_key = apply_filters( 'c2c_silent_publish_meta_key', $meta_key );
-
-		// Only override the meta key name if one was specified. Otherwise the
-		// default remains (since a meta key is necessary).
-		if ( $meta_key ) {
-			self::$meta_key = $meta_key;
-		}
-
 		// Register hooks.
 		add_action( 'post_submitbox_misc_actions', array( __CLASS__, 'add_ui' ) );
 		add_filter( 'wp_insert_post_data',         array( __CLASS__, 'save_silent_publish_status' ), 2, 2 );
 		add_action( 'publish_post',                array( __CLASS__, 'publish_post' ), 1, 1 );
 
+	}
+
+	/**
+	 * Returns the name of the meta key.
+	 *
+	 * @since 2.6
+	 *
+	 * @return string
+	 */
+	public static function get_meta_key_name() {
+		// Default value.
+		$meta_key = '_silent-publish';
+
+		// Deprecated as of 2.3.
+		$meta_key = apply_filters( 'silent_publish_meta_key', $meta_key );
+
+		// Apply custom filter to obtain meta key name. Use blank string to disable
+		// saving the silent publish status in a custom field.
+		$meta_key = apply_filters( 'c2c_silent_publish_meta_key', $meta_key );
+
+		return $meta_key;
 	}
 
 	/**
@@ -147,7 +144,7 @@ class c2c_SilentPublish {
 		if ( (bool) apply_filters( 'c2c_silent_publish_default', false, $post ) ) {
 			$value = '1';
 		} else {
-			$value = get_post_meta( $post->ID, self::$meta_key, true );
+			$value = get_post_meta( $post->ID, self::get_meta_key_name(), true );
 		}
 
 		$checked = checked( $value, '1', false );
@@ -186,16 +183,22 @@ class c2c_SilentPublish {
 	 * @return array The unmodified $data.
 	 */
 	public static function save_silent_publish_status( $data, $postarr ) {
-		if ( self::$meta_key &&
-			 isset( $postarr['post_type'] ) &&
-			 ( 'revision' != $postarr['post_type'] ) &&
-			 ! ( isset( $_POST['action'] ) && 'inline-save' == $_POST['action'] )
-			) {
+		$meta_key = self::get_meta_key_name();
+
+		if (
+			$meta_key
+			&&
+			isset( $postarr['post_type'] )
+			&&
+			'revision' != $postarr['post_type']
+			&&
+			! ( isset( $_POST['action'] ) && 'inline-save' == $_POST['action'] )
+		) {
 			// Update the value of the silent publish custom field.
 			if ( isset( $postarr[ self::$field ] ) && $postarr[ self::$field ] ) {
-				update_post_meta( $postarr['ID'], self::$meta_key, 1 );
+				update_post_meta( $postarr['ID'], $meta_key, 1 );
 			} else {
-				delete_post_meta( $postarr['ID'], self::$meta_key );
+				delete_post_meta( $postarr['ID'], $meta_key );
 			}
 		}
 
@@ -222,8 +225,8 @@ class c2c_SilentPublish {
 			define( 'WP_IMPORTING', true );
 
 			// If a meta key name is defined, then set its value to 1
-			if ( self::$meta_key ) {
-				update_post_meta( $post_id, self::$meta_key, 1 );
+			if ( $meta_key = self::get_meta_key_name() ) {
+				update_post_meta( $post_id, $meta_key, 1 );
 			}
 
 		}

@@ -7,6 +7,25 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	protected $field    = 'silent_publish';
 	protected $meta_key = '_silent-publish';
 
+	public function tearDown() {
+		parent::tearDown();
+
+		remove_filter( 'c2c_silent_publish_meta_key', array( $this, 'c2c_silent_publish_meta_key' ) );
+		remove_filter( 'c2c_silent_publish_meta_key', '__return_empty_string' );
+	}
+
+
+	//
+	//
+	// HELPER FUNCTIONS
+	//
+	//
+
+
+	public function c2c_silent_publish_meta_key( $key ) {
+		return '_new-key';
+	}
+
 
 	//
 	//
@@ -84,6 +103,26 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		wp_update_post( $post );
 
 		$this->assertFalse( metadata_exists( 'post', $post_id, $this->meta_key ) );
+	}
+
+	/*
+	 * get_meta_key_name()
+	 */
+
+	public function test_get_meta_key_name() {
+		$this->assertEquals( '_silent-publish', c2c_SilentPublish::get_meta_key_name() );
+	}
+
+	public function test_filtered_get_meta_key_name() {
+		add_filter( 'c2c_silent_publish_meta_key', array( $this, 'c2c_silent_publish_meta_key' ) );
+
+		$this->assertEquals( '_new-key', c2c_SilentPublish::get_meta_key_name() );
+	}
+
+	public function test_empty_get_meta_key_name() {
+		add_filter( 'c2c_silent_publish_meta_key', '__return_empty_string' );
+
+		$this->assertEmpty( c2c_SilentPublish::get_meta_key_name() );
 	}
 
 	/* This test must be last since it results in WP_IMPORTING constant being set. */
