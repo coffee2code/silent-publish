@@ -148,9 +148,11 @@ class c2c_SilentPublish {
 		$checked = checked( $value, '1', false );
 
 		if ( ! $hide ) {
-			echo "<div class='misc-pub-section'><label class='selectit c2c-silent-publish' for='" . esc_attr( self::$field ) . "' title='";
-			esc_attr_e( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' );
-			echo "'>\n";
+			printf(
+				'<div class="misc-pub-section"><label class="selectit c2c-silent-publish" for="%1$s" title="%2$s">' . "\n",
+				esc_attr( self::$field ),
+				esc_attr_e( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' )
+			);
 		}
 
 		if ( ! $hide || $checked ) {
@@ -161,7 +163,13 @@ class c2c_SilentPublish {
 				$type = 'checkbox';
 			}
 
-			echo "<input id='" . esc_attr( self::$field ) . "' type='$type' $checked value='1' name='" . esc_attr( self::$field ) . "' />\n";
+			printf(
+				'<input id="%1$s" type="%2$s" %3$s value="1" name="%4$s" />' . "\n",
+				esc_attr( self::$field ),
+				$type,
+				$checked,
+				esc_attr( self::$field )
+			);
 		}
 
 		if ( ! $hide ) {

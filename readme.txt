@@ -105,6 +105,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 = () =
 * Change: Add `get_meta_key_name()` as getter for meta_key name, allowing for late filtering
 * Change: Prevent object instantiation of the class
+* Change: Use `sprintf()` to produce markup rather than concatenating various strings, function calls, and variables
 * Change: Update unit test bootstrap
     * Default `WP_TESTS_DIR` to `/tmp/wordpress-tests-lib` rather than erroring out if not defined via environment variable
     * Enable more error output for unit tests
