@@ -7,11 +7,19 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	protected $field    = 'silent_publish';
 	protected $meta_key = '_silent-publish';
 
+	private   $hooked   = -1;
+
 	public function tearDown() {
 		parent::tearDown();
 
+		$this->hooked = -1;
+
+		add_action( 'publish_post', '_publish_post_hook', 5, 1 );
+
 		remove_filter( 'c2c_silent_publish_meta_key', array( $this, 'c2c_silent_publish_meta_key' ) );
 		remove_filter( 'c2c_silent_publish_meta_key', '__return_empty_string' );
+		remove_action( 'publish_post',                array( $this, 'check_publish_post_hook' ), 4, 1 );
+		remove_action( 'publish_post',                array( $this, 'check_publish_post_hook' ), 6, 1 );
 	}
 
 
@@ -24,6 +32,10 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 	public function c2c_silent_publish_meta_key( $key ) {
 		return '_new-key';
+	}
+
+	public function check_publish_post_hook( $post_id ) {
+		$this->hooked = has_action( 'publish_post', '_publish_post_hook', 5, 1 ) ? 1 : 2;
 	}
 
 
@@ -63,7 +75,10 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 		wp_publish_post( $post_id );
 
-		$this->assertFalse( defined( 'WP_IMPORTING' ) );
+		$this->assertFalse( metadata_exists( 'post', $post_id, $this->meta_key ) );
+		$this->assertEquals( 5, has_action( 'publish_post', '_publish_post_hook', 5, 1 ) );
+
+		return $post_id;
 	}
 
 	public function test_saving_post_set_as_silently_published_retains_meta() {
@@ -88,6 +103,8 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assertEquals( '1', get_post_meta( $post_id, $this->meta_key, true ) );
 
 		$post = get_post( $post_id, ARRAY_A );
+		// Simulate a POST.
+		$_POST[ 'aaa' ] = '1';
 		wp_update_post( $post );
 
 		$this->assertFalse( metadata_exists( 'post', $post_id, $this->meta_key ) );
@@ -101,9 +118,12 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assertEquals( '1', get_post_meta( $post_id, $this->meta_key, true ) );
 
 		$post = get_post( $post_id, ARRAY_A );
+		// Simulate a POST.
+		$_POST[ 'aaa' ] = '1';
 		wp_update_post( $post );
 
 		$this->assertFalse( metadata_exists( 'post', $post_id, $this->meta_key ) );
+		$this->assertFalse( has_action( 'publish_post', '_publish_post_hook', 5, 1 ) );
 	}
 
 	/*
@@ -126,8 +146,6 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assertEmpty( c2c_SilentPublish::get_meta_key_name() );
 	}
 
-	/* This test must be last since it results in WP_IMPORTING constant being set. */
-
 	public function test_silently_published_post_publishes_silently() {
 		$post_id = $this->factory->post->create( array( 'post_status' => 'draft' ) );
 
@@ -138,8 +156,34 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 		wp_publish_post( $post_id );
 
-		$this->assertTrue( defined( 'WP_IMPORTING' ) );
+		$this->assertTrue( metadata_exists( 'post', $post_id, $this->meta_key ) );
 		$this->assertEquals( '1', get_post_meta( $post_id, $this->meta_key, true ) );
+
+		return $post_id;
+	}
+
+	/*
+	 * Check filter gets unhooked.
+	 */
+
+	public function test_default_behavior() {
+		add_action( 'publish_post', array( $this, 'check_publish_post_hook' ), 4, 1 );
+
+		$post_id = $this->test_non_silently_published_post_publishes_without_silencing();
+
+		apply_filters( 'publish_post', $post_id );
+
+		$this->assertEquals( 1, $this->hooked );
+	}
+
+	public function test_it_works() {
+		add_action( 'publish_post', array( $this, 'check_publish_post_hook' ), 4, 1 );
+
+		$post_id = $this->test_silently_published_post_publishes_silently();
+
+		apply_filters( 'publish_post', $post_id );
+
+		$this->assertEquals( 2, $this->hooked );
 	}
 
 }

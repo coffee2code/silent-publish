@@ -237,18 +237,17 @@ class c2c_SilentPublish {
 	 * @param int $post_id Post ID.
 	 */
 	public static function publish_post( $post_id ) {
+		$meta_key = self::get_meta_key_name();
 
-		// Look for the custom POST field
-		if ( isset( $_POST[ self::$field ] ) && $_POST[ self::$field ] ) {
+		// Bail if no meta key name.
+		if ( ! $meta_key ) {
+			return;
+		}
 
-			// Trick WP into being silent by invoking its import mode
-			define( 'WP_IMPORTING', true );
-
-			// If a meta key name is defined, then set its value to 1
-			if ( $meta_key = self::get_meta_key_name() ) {
-				update_post_meta( $post_id, $meta_key, 1 );
-			}
-
+		// Should the post be published silently?
+		if ( get_post_meta( $post_id, $meta_key, true ) ) {
+			// Unhook the action responsible for handling pings and enclosures for post.
+			remove_action( 'publish_post', '_publish_post_hook', 5, 1 );
 		}
 	}
 
