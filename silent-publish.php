@@ -151,7 +151,7 @@ class c2c_SilentPublish {
 			printf(
 				'<div class="misc-pub-section"><label class="selectit c2c-silent-publish" for="%1$s" title="%2$s">' . "\n",
 				esc_attr( self::$field ),
-				esc_attr_e( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' )
+				esc_attr__( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' )
 			);
 		}
 
