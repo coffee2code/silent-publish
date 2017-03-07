@@ -100,7 +100,7 @@ class c2c_SilentPublish {
 
 		// Register hooks.
 		add_action( 'post_submitbox_misc_actions', array( __CLASS__, 'add_ui' ) );
-		add_filter( 'wp_insert_post_data',         array( __CLASS__, 'save_silent_publish_status' ), 2, 2 );
+		add_filter( 'save_post',                   array( __CLASS__, 'save_silent_publish_status' ), 2, 3 );
 		add_action( 'publish_post',                array( __CLASS__, 'publish_post' ), 1, 1 );
 	}
 
@@ -183,32 +183,46 @@ class c2c_SilentPublish {
 	 *
 	 * @since 2.0
 	 *
-	 * @param  array $data    Data.
-	 * @param  array $postarr Array of post fields and values for post being saved.
+	 * @param int     $post_ID Post ID.
+	 * @param WP_Post $post    Post object.
+	 * @param bool    $update  Whether this is an existing post being updated or not.
 	 *
 	 * @return array The unmodified $data.
 	 */
-	public static function save_silent_publish_status( $data, $postarr ) {
+	public static function save_silent_publish_status( $post_id, $post, $update ) {
 		$meta_key = self::get_meta_key_name();
 
-		if (
-			$meta_key
-			&&
-			isset( $postarr['post_type'] )
-			&&
-			'revision' != $postarr['post_type']
-			&&
-			! ( isset( $_POST['action'] ) && 'inline-save' == $_POST['action'] )
-		) {
-			// Update the value of the silent publish custom field.
-			if ( isset( $postarr[ self::$field ] ) && $postarr[ self::$field ] ) {
-				update_post_meta( $postarr['ID'], $meta_key, 1 );
-			} else {
-				delete_post_meta( $postarr['ID'], $meta_key );
-			}
+		// Bail if no meta key name.
+		if ( ! $meta_key ) {
+			return $post_id;
 		}
 
-		return $data;
+		// Bail if doing an autosave.
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+
+		// Bail if a post revision.
+		if ( wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+
+		// Bail if an attachment.
+		if ( 'attachment' === get_post_type( $post ) ) {
+			return;
+		}
+
+		// Bail if auto-draft or trashed post.
+		if ( in_array( get_post_status( $post ), array( 'auto-draft', 'trash' ) ) ) {
+			return;
+		}
+
+		// Update the value of the silent publish custom field.
+		if ( ! empty( $_POST[ self::$field ] ) ) {
+			update_post_meta( $post_id, $meta_key, 1 );
+		} else {
+			delete_post_meta( $post_id, $meta_key );
+		}
 	}
 
 	/**

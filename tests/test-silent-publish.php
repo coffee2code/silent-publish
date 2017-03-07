@@ -50,8 +50,8 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assertNotFalse( has_action( 'post_submitbox_misc_actions', array( 'c2c_SilentPublish', 'add_ui' ) ) );
 	}
 
-	public function test_wp_insert_post_data_filter_triggers_save_silent_publish_status() {
-		$this->assertNotFalse( has_filter( 'wp_insert_post_data', array( 'c2c_SilentPublish', 'save_silent_publish_status' ), 2, 2 ) );
+	public function test_save_post_filter_triggers_save_silent_publish_status() {
+		$this->assertNotFalse( has_filter( 'save_post', array( 'c2c_SilentPublish', 'save_silent_publish_status' ), 2, 3 ) );
 	}
 
 	public function test_publish_post_action_triggers_publish_post() {
@@ -70,8 +70,10 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$post_id = $this->factory->post->create();
 		update_post_meta( $post_id, $this->meta_key, '1' );
 
+		$this->assertTrue( metadata_exists( 'post', $post_id, $this->meta_key ) );
+
 		$post = get_post( $post_id, ARRAY_A );
-		$post[ $this->field ] = '1';
+		$_POST[ $this->field ] = '1';
 		wp_update_post( $post );
 
 		$this->assertTrue( metadata_exists( 'post', $post_id, $this->meta_key ) );
@@ -99,7 +101,6 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assertEquals( '1', get_post_meta( $post_id, $this->meta_key, true ) );
 
 		$post = get_post( $post_id, ARRAY_A );
-		$post[ $this->field ] = '';
 		wp_update_post( $post );
 
 		$this->assertFalse( metadata_exists( 'post', $post_id, $this->meta_key ) );

@@ -103,6 +103,9 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 == Changelog ==
 
 = () =
+* Change: Overhaul how setting gets saved
+    * Hook 'save_post' action instead of 'wp_insert_post_data'
+    * Ensure setting value isn't saved if no meta key name is set, or the post is a revision or autosave
 * Change: Add `get_meta_key_name()` as getter for meta_key name, allowing for late filtering
 * Change: Prevent object instantiation of the class
 * Change: Use `sprintf()` to produce markup rather than concatenating various strings, function calls, and variables
