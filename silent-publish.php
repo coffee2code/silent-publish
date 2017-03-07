@@ -164,7 +164,7 @@ class c2c_SilentPublish {
 			}
 
 			// Output nonce.
-			printf( '<input type="hidden" name="_%1%s_nonce" value="%2$s" />', self::$field, wp_create_nonce( self::$field ) );
+			printf( '<input type="hidden" name="_%1$s_nonce" value="%2$s" />', self::$field, wp_create_nonce( self::$field ) );
 
 			// Output input field.
 			printf(
