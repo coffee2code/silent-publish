@@ -109,6 +109,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * Change: Overhaul how silent publishing is implemented
     * Instead of set `WP_IMPORTING` constant, unhook `_publish_post_hook()` from 'publish_post' action
     * No need to potentially save the value of the meta field
+* Change: Add nonce alongside checkbox
 * Change: Add `get_meta_key_name()` as getter for meta_key name, allowing for late filtering
 * Change: Prevent object instantiation of the class
 * Change: Use `sprintf()` to produce markup rather than concatenating various strings, function calls, and variables

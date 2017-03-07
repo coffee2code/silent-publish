@@ -6,6 +6,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 	protected $field    = 'silent_publish';
 	protected $meta_key = '_silent-publish';
+	protected $nonce    = '_silent_publish_nonce';
 
 	private   $hooked   = -1;
 
@@ -104,7 +105,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 		$post = get_post( $post_id, ARRAY_A );
 		// Simulate a POST.
-		$_POST[ 'aaa' ] = '1';
+		$_POST[ $this->nonce ] = wp_create_nonce( $this->field );
 		wp_update_post( $post );
 
 		$this->assertFalse( metadata_exists( 'post', $post_id, $this->meta_key ) );
@@ -119,7 +120,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 		$post = get_post( $post_id, ARRAY_A );
 		// Simulate a POST.
-		$_POST[ 'aaa' ] = '1';
+		$_POST[ $this->nonce ] = wp_create_nonce( $this->field );
 		wp_update_post( $post );
 
 		$this->assertFalse( metadata_exists( 'post', $post_id, $this->meta_key ) );
@@ -153,6 +154,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		// checkbox is present to set the $_POST array element to trigger
 		// stealth update
 		$_POST[ $this->field ] = '1';
+		$_POST[ $this->nonce ] = wp_create_nonce( $this->field );
 
 		wp_publish_post( $post_id );
 

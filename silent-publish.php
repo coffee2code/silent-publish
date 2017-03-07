@@ -163,6 +163,10 @@ class c2c_SilentPublish {
 				$type = 'checkbox';
 			}
 
+			// Output nonce.
+			printf( '<input type="hidden" name="_%1%s_nonce" value="%2$s" />', self::$field, wp_create_nonce( self::$field ) );
+
+			// Output input field.
 			printf(
 				'<input id="%1$s" type="%2$s" %3$s value="1" name="%4$s" />' . "\n",
 				esc_attr( self::$field ),
@@ -199,6 +203,16 @@ class c2c_SilentPublish {
 
 		// Bail if doing an autosave.
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		}
+
+		// Bail if not POST or no nonce provided.
+		if ( ! $_POST || empty( $_POST[ '_' . self::$field . '_nonce' ] ) ) {
+			return;
+		}
+
+		// Bail if nonce check fails.
+		if ( ! wp_verify_nonce( $_POST[ '_' . self::$field . '_nonce' ], self::$field ) ) {
 			return;
 		}
 
