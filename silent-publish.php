@@ -198,7 +198,7 @@ class c2c_SilentPublish {
 
 		// Bail if no meta key name.
 		if ( ! $meta_key ) {
-			return $post_id;
+			return;
 		}
 
 		// Bail if doing an autosave.
