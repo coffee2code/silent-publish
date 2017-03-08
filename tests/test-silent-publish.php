@@ -124,7 +124,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		wp_update_post( $post );
 
 		$this->assertFalse( metadata_exists( 'post', $post_id, $this->meta_key ) );
-		$this->assertFalse( has_action( 'publish_post', '_publish_post_hook', 5, 1 ) );
+		$this->assertEquals( 5, has_action( 'publish_post', '_publish_post_hook', 5, 1 ) );
 	}
 
 	/*
@@ -160,8 +160,20 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 		$this->assertTrue( metadata_exists( 'post', $post_id, $this->meta_key ) );
 		$this->assertEquals( '1', get_post_meta( $post_id, $this->meta_key, true ) );
+		$this->assertFalse( has_action( 'publish_post', '_publish_post_hook', 5, 1 ) );
 
 		return $post_id;
+	}
+
+	public function test_silently_published_post_via_meta_on_draft_publishes_silently() {
+		$post_id = $this->factory->post->create( array( 'post_status' => 'draft' ) );
+		update_post_meta( $post_id, $this->meta_key, '1' );
+
+		wp_publish_post( $post_id );
+
+		$this->assertTrue( metadata_exists( 'post', $post_id, $this->meta_key ) );
+		$this->assertEquals( '1', get_post_meta( $post_id, $this->meta_key, true ) );
+		$this->assertFalse( has_action( 'publish_post', '_publish_post_hook', 5, 1 ) );
 	}
 
 	/*

@@ -258,6 +258,10 @@ class c2c_SilentPublish {
 			return;
 		}
 
+		// Potentially handle post updates happening during publish.
+		// Note: needed since post transition occurs before 'save_post' action.
+		self::save_silent_publish_status( $post_id, get_post( $post_id ), true );
+
 		// Should the post be published silently?
 		if ( get_post_meta( $post_id, $meta_key, true ) ) {
 			// Unhook the action responsible for handling pings and enclosures for post.
