@@ -158,7 +158,6 @@ class c2c_SilentPublish {
 		if ( ! $hide || $checked ) {
 			if ( $hide ) {
 				$type = 'hidden';
-				$checked = '';
 			} else {
 				$type = 'checkbox';
 			}
