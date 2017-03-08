@@ -267,6 +267,10 @@ class c2c_SilentPublish {
 			// Unhook the action responsible for handling pings and enclosures for post.
 			remove_action( 'publish_post', '_publish_post_hook', 5, 1 );
 		}
+		// Potentially restore default action that may have been removed.
+		elseif ( ! has_action( 'publish_post', '_publish_post_hook', 5, 1 ) ) {
+			add_action( 'publish_post', '_publish_post_hook', 5, 1 );
+		}
 	}
 
 } // end c2c_SilentPublish

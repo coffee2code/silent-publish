@@ -176,6 +176,25 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assertFalse( has_action( 'publish_post', '_publish_post_hook', 5, 1 ) );
 	}
 
+	public function test_previously_silently_published_post_can_be_republished_without_silence() {
+		$post_id = $this->test_silently_published_post_publishes_silently();
+
+		// Publishing assumes it's coming from the edit page UI where the
+		// checkbox is present to set the $_POST array element to trigger
+		// stealth update
+		unset( $_POST[ $this->field ] );
+		$_POST[ $this->nonce ] = wp_create_nonce( $this->field );
+
+		$post = get_post( $post_id, ARRAY_A );
+		$post['post_status'] = 'draft';
+		$post_id = wp_update_post( $post, true );
+
+		wp_publish_post( $post_id );
+
+		$this->assertFalse( metadata_exists( 'post', $post_id, $this->meta_key ) );
+		$this->assertEquals( 5, has_action( 'publish_post', '_publish_post_hook', 5, 1 ) );
+	}
+
 	/*
 	 * Check filter gets unhooked.
 	 */
