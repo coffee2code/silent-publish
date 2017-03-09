@@ -124,7 +124,7 @@ class c2c_SilentPublish {
 	 * Outputs the UI to prompt user if silent publish should be enabled for the post.
 	 *
 	 * Displays the UI outright if the post is not published. If published, it either
-	 * displays hidden when the meta field has a value, or not at all.
+	 * displays disabled when the meta field has a value, or not at all.
 	 *
 	 * @since 2.0
 	 * @uses apply_filters() Calls 'c2c_silent_publish_default' with silent publish state default (false)
