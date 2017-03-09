@@ -39,6 +39,46 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->hooked = has_action( 'publish_post', '_publish_post_hook', 5, 1 ) ? 1 : 2;
 	}
 
+	/**
+	 * Asserts the output matches the expected output.
+	 *
+	 * @param string $output            The output of the form markup for Silent Publish.
+	 * @param bool   $is_silent_publish Is the value of the silent publish checkbox checked?
+	 * @param bool   $is_published      Is the post published?
+	 */
+	public function assert_form_output( $output, $is_silent_publish, $is_published ) {
+		$expected = '';
+
+		if ( ! $is_silent_publish && $is_published ) {
+			return $expected;
+		}
+
+		if ( ! $is_published ) {
+			$expected .= sprintf(
+				'<div class="misc-pub-section"><label class="selectit c2c-silent-publish" for="%1$s" title="%2$s">' . "\n",
+				esc_attr( $this->field ),
+				esc_attr__( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' )
+			);
+		}
+
+		$expected .= sprintf( '<input type="hidden" name="_%1$s_nonce" value="%2$s" />', $this->field, wp_create_nonce( $this->field ) );
+
+		// Output input field.
+		$expected .= sprintf(
+			'<input id="%1$s" type="%2$s" %3$s value="1" name="%4$s" />' . "\n",
+			esc_attr( $this->field ),
+			$is_published ? 'hidden' : 'checkbox',
+			checked( true, (bool) $is_silent_publish, false ),
+			esc_attr( $this->field )
+		);
+
+		if ( ! $is_published ) {
+			$expected .= __( 'Silent publish?', 'silent-publish' );
+			$expected .= '</label></div>' . "\n";
+		}
+
+		$this->assertEquals( $expected, $output );
+	}
 
 	//
 	//
@@ -193,6 +233,72 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 		$this->assertFalse( metadata_exists( 'post', $post_id, $this->meta_key ) );
 		$this->assertEquals( 5, has_action( 'publish_post', '_publish_post_hook', 5, 1 ) );
+	}
+
+	/*
+	 * add_ui()
+	 */
+
+	public function test_form_elements_are_output_for_unpublished_post() {
+		global $post;
+
+		$post_id = $this->factory->post->create( array( 'post_status' => 'draft' ) );
+		$post = get_post( $post_id );
+
+		ob_start();
+		c2c_SilentPublish::add_ui();
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertNotEmpty( $output );
+		$this->assert_form_output( $output, false, false );
+	}
+
+	public function test_form_elements_are_output_for_unpublished_post_with_meta_set() {
+		global $post;
+
+		$post_id = $this->factory->post->create( array( 'post_status' => 'draft' ) );
+		update_post_meta( $post_id, $this->meta_key, '1' );
+		$post = get_post( $post_id );
+
+		ob_start();
+		c2c_SilentPublish::add_ui();
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertNotEmpty( $output );
+		$this->assert_form_output( $output, true, false );
+	}
+
+	public function test_form_elements_are_output_for_published_post_with_meta_set() {
+		global $post;
+
+		$post_id = $this->factory->post->create( array( 'post_status' => 'publish' ) );
+		add_post_meta( $post_id, $this->meta_key, '1' );
+		$post = get_post( $post_id );
+
+		ob_start();
+		c2c_SilentPublish::add_ui();
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertNotEmpty( $output );
+		$this->assert_form_output( $output, true, true );
+	}
+
+	public function test_form_elements_not_output_hidden_for_published_post_without_meta() {
+		global $post;
+
+		$post_id = $this->factory->post->create( array( 'post_status' => 'publish' ) );
+		$post = get_post( $post_id );
+
+		ob_start();
+		c2c_SilentPublish::add_ui();
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertEmpty( $output );
+		$this->assert_form_output( $output, false, true );
 	}
 
 	/*
