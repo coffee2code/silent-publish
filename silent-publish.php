@@ -145,6 +145,12 @@ class c2c_SilentPublish {
 			$value = get_post_meta( $post->ID, self::get_meta_key_name(), true );
 		}
 
+		// If post is already published and was not published silently, no need to
+		// show empty checkbox.
+		if ( $hide && ! $value ) {
+			return;
+		}
+
 		$checked = checked( $value, '1', false );
 
 		if ( ! $hide ) {
