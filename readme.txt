@@ -59,6 +59,18 @@ If the "Silent publish?" checkbox had been checked at the time a post is publish
 
 If the "Silent publish?" checkbox had not been checked at the time a post is published, the field will no longer be shown for that published post. Once a post is published, changing the value of the checkbox has no meaning, so there is no need to show it. If you unpublish the post, the checkbox will reappear.
 
+= Can I change my mind after I silently publish a post to post it again without it being silent? =
+
+Yes. You must first unpublish the post (by making it a draft or pending). Then uncheck the "Publish silently?" checkbox and republish the post.
+
+= Does this prevent email notifications from going out to people subscribed to receive a notice about new posts to the site? =
+
+No.
+
+= Does this prevent the post being automatically shared to, or announced on, social media sites (Facebook, Twitter, etc)? =
+
+No. your posts will continue to be shared to social media sites upon publication (assuming it is configured to do so by whatever plugins you have in place to share your posts).
+
 = Does this plugin include unit tests? =
 
 Yes.
@@ -128,6 +140,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * Change: Minor inline code documentation formatting changes (punctuation, verb tense)
 * Change: Note compatibility through WP 4.7+
 * Change: Remove support for WordPress older than 4.6 (should still work for earlier versions back to WP 3.6)
+* Change: Add more FAQs
 * Change: Update copyright date (2017)
 
 = 2.5 (2016-03-28) =
