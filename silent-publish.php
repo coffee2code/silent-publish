@@ -22,11 +22,6 @@
  */
 
 /*
- * TODO:
- * - Make it work for direct, non-UI calls to publish_post()
- */
-
-/*
 	Copyright (c) 2009-2017 by Scott Reilly (aka coffee2code)
 
 	This program is free software; you can redistribute it and/or
@@ -137,7 +132,7 @@ class c2c_SilentPublish {
 	public static function add_ui() {
 		global $post;
 
-		$hide = ( 'publish' == $post->post_status );
+		$disable = ( 'publish' == $post->post_status );
 
 		if ( (bool) apply_filters( 'c2c_silent_publish_default', false, $post ) ) {
 			$value = '1';
@@ -147,44 +142,31 @@ class c2c_SilentPublish {
 
 		// If post is already published and was not published silently, no need to
 		// show empty checkbox.
-		if ( $hide && ! $value ) {
+		if ( $disable && ! $value ) {
 			return;
 		}
 
-		$checked = checked( $value, '1', false );
+		printf(
+			'<div class="misc-pub-section"><label class="selectit c2c-silent-publish" for="%1$s" title="%2$s"%3$s>' . "\n",
+			esc_attr( self::$field ),
+			esc_attr__( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' ),
+			$disable ? ' style="opacity:.7"' : ''
+		);
 
-		if ( ! $hide ) {
-			printf(
-				'<div class="misc-pub-section"><label class="selectit c2c-silent-publish" for="%1$s" title="%2$s">' . "\n",
-				esc_attr( self::$field ),
-				esc_attr__( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' )
-			);
-		}
+		// Output nonce.
+		printf( '<input type="hidden" name="_%1$s_nonce" value="%2$s" />', self::$field, wp_create_nonce( self::$field ) );
 
-		if ( ! $hide || $checked ) {
-			if ( $hide ) {
-				$type = 'hidden';
-			} else {
-				$type = 'checkbox';
-			}
+		// Output input field.
+		printf(
+			'<input id="%1$s" type="checkbox" %2$s %3$s value="1" name="%4$s" />' . "\n",
+			esc_attr( self::$field ),
+			disabled( $disable, true, false ),
+			checked( $value, '1', false ),
+			esc_attr( self::$field )
+		);
 
-			// Output nonce.
-			printf( '<input type="hidden" name="_%1$s_nonce" value="%2$s" />', self::$field, wp_create_nonce( self::$field ) );
-
-			// Output input field.
-			printf(
-				'<input id="%1$s" type="%2$s" %3$s value="1" name="%4$s" />' . "\n",
-				esc_attr( self::$field ),
-				$type,
-				$checked,
-				esc_attr( self::$field )
-			);
-		}
-
-		if ( ! $hide ) {
-			_e( 'Silent publish?', 'silent-publish' );
-			echo '</label></div>' . "\n";
-		}
+		_e( 'Silent publish?', 'silent-publish' );
+		echo '</label></div>' . "\n";
 	}
 
 	/**

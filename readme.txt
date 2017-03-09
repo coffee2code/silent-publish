@@ -51,6 +51,14 @@ Perhaps for a particular post you don't want any external notifications sent out
 
 Yes. See the Filters section (under Other Notes) and look for the example using the 'c2c_silent_publish_default' filter. You'll have to put that code into your active theme's functions.php file or a mu-plugin file.
 
+= Why is the "Silent publish?" checkbox disabled? =
+
+If the "Silent publish?" checkbox had been checked at the time a post is published, the field will be shown but will disabled for that published post. Once a post is published, changing the value of the checkbox has no meaning, so there is no need to make it checkable. If you unpublish the post, the checkbox will again be clickable.
+
+= Why did the "Silent publish?" checkbox disappear? =
+
+If the "Silent publish?" checkbox had not been checked at the time a post is published, the field will no longer be shown for that published post. Once a post is published, changing the value of the checkbox has no meaning, so there is no need to show it. If you unpublish the post, the checkbox will reappear.
+
 = Does this plugin include unit tests? =
 
 Yes.
@@ -109,6 +117,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * Change: Overhaul how silent publishing is implemented
     * Instead of set `WP_IMPORTING` constant, unhook `_publish_post_hook()` from 'publish_post' action
     * No need to potentially save the value of the meta field
+* Change: Show the "Silent publish?" checkbox as checked but disabled once a post has been silently published
 * Change: Add nonce alongside checkbox
 * Change: Add `get_meta_key_name()` as getter for meta_key name, allowing for late filtering
 * Change: Prevent object instantiation of the class

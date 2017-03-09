@@ -53,29 +53,26 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 			return $expected;
 		}
 
-		if ( ! $is_published ) {
-			$expected .= sprintf(
-				'<div class="misc-pub-section"><label class="selectit c2c-silent-publish" for="%1$s" title="%2$s">' . "\n",
-				esc_attr( $this->field ),
-				esc_attr__( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' )
-			);
-		}
+		$expected .= sprintf(
+			'<div class="misc-pub-section"><label class="selectit c2c-silent-publish" for="%1$s" title="%2$s"%3$s>' . "\n",
+			esc_attr( $this->field ),
+			esc_attr__( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' ),
+			$is_published ? ' style="opacity:.7"' : ''
+		);
 
 		$expected .= sprintf( '<input type="hidden" name="_%1$s_nonce" value="%2$s" />', $this->field, wp_create_nonce( $this->field ) );
 
 		// Output input field.
 		$expected .= sprintf(
-			'<input id="%1$s" type="%2$s" %3$s value="1" name="%4$s" />' . "\n",
+			'<input id="%1$s" type="checkbox" %2$s %3$s value="1" name="%4$s" />' . "\n",
 			esc_attr( $this->field ),
-			$is_published ? 'hidden' : 'checkbox',
+			disabled( $is_published, true, false ),
 			checked( true, (bool) $is_silent_publish, false ),
 			esc_attr( $this->field )
 		);
 
-		if ( ! $is_published ) {
-			$expected .= __( 'Silent publish?', 'silent-publish' );
-			$expected .= '</label></div>' . "\n";
-		}
+		$expected .= __( 'Silent publish?', 'silent-publish' );
+		$expected .= '</label></div>' . "\n";
 
 		$this->assertEquals( $expected, $output );
 	}
