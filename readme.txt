@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.6
 Tested up to: 4.7
-Stable tag: 2.5
+Stable tag: 2.6
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
@@ -122,7 +122,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 == Changelog ==
 
-= () =
+= 2.6 (2017-03-08) =
 * Change: Overhaul how setting gets saved
     * Hook 'save_post' action instead of 'wp_insert_post_data'
     * Ensure setting value isn't saved if no meta key name is set, or the post is a revision or autosave
@@ -142,6 +142,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * Change: Remove support for WordPress older than 4.6 (should still work for earlier versions back to WP 3.6)
 * Change: Update readme.txt content and formatting
 * Change: Add more FAQs
+* Change: Add more unit tests
 * Change: Update copyright date (2017)
 
 = 2.5 (2016-03-28) =
@@ -265,6 +266,9 @@ Details:
 
 
 == Upgrade Notice ==
+
+= 2.6 =
+Recommended release: fairly significant rewrite, show "Silent publish?" checkbox as checked but disabled once post has been silently published, noted compatibility through WP 4.7+, dropped compatibility with WP older than 4.6, more
 
 = 2.5 =
 Minor release: improved support for localization; verified compatibility through WP 4.5; updated copyright date (2016)
