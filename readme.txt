@@ -15,13 +15,13 @@ Adds the ability to publish a post without triggering pingbacks, trackbacks, or 
 
 This plugin gives you the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
-A "Publish silently?" checkbox is added to the "Write Post" admin page. If checked when the post is published, that post will not trigger the pingbacks, trackbacks, and update service notifications that might typically occur.
+A "Publish silently?" checkbox is added to the "Add New Post" and "Edit Post" admin pages (the latter only for unpublished posts). If checked when the post is published, that post will not trigger the pingbacks, trackbacks, and update service notifications that would typically occur.
 
 In every other manner, the post is published as usual: it'll appear on the front page, archives, and feeds as expected, and no other aspect of the post is affected.
 
 While trackbacks and pingsbacks can already be disabled from the Add New Post/Page page, this plugin makes things easier by allowing a single checkbox to disable those things, in addition to disabling notification of update services which otherwise could only be disabled by clearing the value of the global setting, which would then affect all authors and any subsequently published posts.
 
-If a post is silently published, a custom field '_silent_publish' for the post is set to a value of 1 as a means of recording the action. However, this value is not then used for any purpose as of yet. Nor is the custom field unset or changed if the post is later re-published.
+If a post is silently published, a custom field '_silent_publish' for the post is set to a value of 1 as a means of recording the action. However, this value is not used after publish for any purpose as of yet. Nor is the custom field unset or changed if the post is later re-published.
 
 Also see my [Stealth Publish](https://wordpress.org/plugins/stealth-publish/) plugin if you want make a new post but prevent it from appearing on the front page of your blog and in feeds. (That plugin incorporates this plugin's functionality, so you won't need both.)
 
@@ -30,9 +30,9 @@ Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [P
 
 == Installation ==
 1. Whether installing or updating, whether this plugin or any other, it is always advisable to back-up your data before starting
-1. Unzip `silent-publish.zip` inside the `/wp-content/plugins/` directory for your site (or install via the built-in WordPress plugin installer)
-1. Activate the plugin through the 'Plugins' admin menu in WordPress
-1. Click the 'Publish silently?' checkbox when publishing a post to prevent triggering of pingbacks, trackbacks, or notifications to update services.
+2. Install via the built-in WordPress plugin installer. Or download and unzip `silent-publish.zip` inside the plugins directory for your site (typically `wp-content/plugins/`)
+3. Activate the plugin through the 'Plugins' admin menu in WordPress
+4. Click the 'Publish silently?' checkbox when publishing a post to prevent triggering of pingbacks, trackbacks, or notifications to update services.
 
 
 == Screenshots ==
@@ -78,7 +78,7 @@ Yes.
 
 == Filters ==
 
-The plugin is further customizable via two filters. Typically, these customizations would be put into your active theme's functions.php file, or used by another plugin.
+The plugin is further customizable via two filters. Code using these filters should ideally be put into a mu-plugin or site-specific plugin (which is beyond the scope of this readme to explain). Less ideally, you could put them in your active theme's functions.php file.
 
 = c2c_silent_publish_meta_key (filter) =
 
@@ -140,6 +140,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * Change: Minor inline code documentation formatting changes (punctuation, verb tense)
 * Change: Note compatibility through WP 4.7+
 * Change: Remove support for WordPress older than 4.6 (should still work for earlier versions back to WP 3.6)
+* Change: Update readme.txt content and formatting
 * Change: Add more FAQs
 * Change: Update copyright date (2017)
 
