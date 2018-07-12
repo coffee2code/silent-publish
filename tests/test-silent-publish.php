@@ -307,7 +307,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 		$post_id = $this->test_non_silently_published_post_publishes_without_silencing();
 
-		apply_filters( 'publish_post', $post_id );
+		do_action( 'publish_post', $post_id );
 
 		$this->assertEquals( 1, $this->hooked );
 	}
@@ -317,7 +317,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 		$post_id = $this->test_silently_published_post_publishes_silently();
 
-		apply_filters( 'publish_post', $post_id );
+		do_action( 'publish_post', $post_id );
 
 		$this->assertEquals( 2, $this->hooked );
 	}

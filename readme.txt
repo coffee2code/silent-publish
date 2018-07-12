@@ -125,6 +125,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 = () =
 * New: Add README.md
 * New: Add GitHub link to readme
+* Bugfix: Fix a pair of unit tests by correctly applying `do_action()` instead of `apply_filters()`
 * Change: Minor whitespace tweaks to unit test bootstrap
 * Change: Note compatibility through WP 4.9+
 * Change: Rename readme.txt section from 'Filters' to 'Hooks'
