@@ -80,7 +80,7 @@ Yes.
 
 The plugin is further customizable via two filters. Code using these filters should ideally be put into a mu-plugin or site-specific plugin (which is beyond the scope of this readme to explain). Less ideally, you could put them in your active theme's functions.php file.
 
-= c2c_silent_publish_meta_key (filter) =
+**c2c_silent_publish_meta_key (filter)**
 
 The 'c2c_silent_publish_meta_key' filter allows you to override the name of the custom field key used by the plugin to store a post's silent publish status. This isn't a common need.
 
@@ -103,7 +103,7 @@ function override_silent_publish_key( $custom_field_key ) {
 add_filter( 'c2c_silent_publish_meta_key', 'override_silent_publish_key' );
 `
 
-= c2c_silent_publish_default (filter) =
+**c2c_silent_publish_default (filter)**
 
 The 'c2c_silent_publish_default' filter allows you to override the default state of the 'Silent Publish?' checkbox.
 
@@ -127,6 +127,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * Change: Minor whitespace tweaks to unit test bootstrap
 * Change: Note compatibility through WP 4.9+
 * Change: Rename readme.txt section from 'Filters' to 'Hooks'
+* Change: Modify formatting of hook name in readme to prevent being uppercased when shown in the Plugin Directory
 * Change: Update copyright date (2018)
 
 = 2.6 (2017-03-08) =
