@@ -122,6 +122,9 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 == Changelog ==
 
+= () =
+* Change: Update copyright date (2018)
+
 = 2.6 (2017-03-08) =
 * Change: Overhaul how setting gets saved
     * Hook 'save_post' action instead of 'wp_insert_post_data'
