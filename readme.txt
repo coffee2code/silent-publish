@@ -5,7 +5,7 @@ Tags: publish, ping, no ping, trackback, update services, post, coffee2code
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.6
-Tested up to: 4.7
+Tested up to: 4.9
 Stable tag: 2.6
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
@@ -123,6 +123,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 == Changelog ==
 
 = () =
+* Change: Note compatibility through WP 4.9+
 * Change: Update copyright date (2018)
 
 = 2.6 (2017-03-08) =
