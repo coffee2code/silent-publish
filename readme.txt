@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.6
 Tested up to: 4.9
-Stable tag: 2.6
+Stable tag: 2.6.1
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
@@ -122,7 +122,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 == Changelog ==
 
-= () =
+= 2.6.1 (2018-07-12) =
 * New: Add README.md
 * New: Add GitHub link to readme
 * Bugfix: Fix a pair of unit tests by correctly applying `do_action()` instead of `apply_filters()`
@@ -276,6 +276,9 @@ Details:
 
 
 == Upgrade Notice ==
+
+= 2.6.1 =
+Trivial update: fixed a couple broken unit tests, noted compatibility through WP 4.9+, added README.md for GitHub, and updated copyright date (2018)
 
 = 2.6 =
 Recommended release: fairly significant rewrite, show "Silent publish?" checkbox as checked but disabled once post has been silently published, noted compatibility through WP 4.7+, dropped compatibility with WP older than 4.6, more

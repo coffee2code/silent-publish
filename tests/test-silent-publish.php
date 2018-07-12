@@ -89,7 +89,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	}
 
 	public function test_version() {
-		$this->assertEquals( '2.6', c2c_SilentPublish::version() );
+		$this->assertEquals( '2.6.1', c2c_SilentPublish::version() );
 	}
 
 	public function test_init_action_triggers_do_init() {
