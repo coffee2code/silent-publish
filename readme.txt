@@ -76,7 +76,7 @@ No. your posts will continue to be shared to social media sites upon publication
 Yes.
 
 
-== Filters ==
+== Hooks ==
 
 The plugin is further customizable via two filters. Code using these filters should ideally be put into a mu-plugin or site-specific plugin (which is beyond the scope of this readme to explain). Less ideally, you could put them in your active theme's functions.php file.
 
@@ -126,6 +126,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * New: Add GitHub link to readme
 * Change: Minor whitespace tweaks to unit test bootstrap
 * Change: Note compatibility through WP 4.9+
+* Change: Rename readme.txt section from 'Filters' to 'Hooks'
 * Change: Update copyright date (2018)
 
 = 2.6 (2017-03-08) =
