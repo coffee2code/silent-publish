@@ -124,6 +124,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 = () =
 * New: Add GitHub link to readme
+* Change: Minor whitespace tweaks to unit test bootstrap
 * Change: Note compatibility through WP 4.9+
 * Change: Update copyright date (2018)
 
