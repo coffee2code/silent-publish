@@ -3,7 +3,7 @@ Contributors: coffee2code
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6ARCFJ9TX3522
 Tags: publish, ping, no ping, trackback, update services, post, coffee2code
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.6
 Tested up to: 4.9
 Stable tag: 2.6.1
@@ -121,6 +121,9 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 
 == Changelog ==
+
+= () =
+* Change: Update License URI to be HTTPS
 
 = 2.6.1 (2018-07-12) =
 * New: Add README.md

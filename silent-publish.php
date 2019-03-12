@@ -7,7 +7,7 @@
  * Author URI:  http://coffee2code.com/
  * Text Domain: silent-publish
  * License:     GPLv2 or later
- * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Description: Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
  *
  * Compatible with WordPress 4.6+ through 4.9+.
