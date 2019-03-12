@@ -123,6 +123,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 == Changelog ==
 
 = () =
+* New: Add CHANGELOG.md and move all but most recent changelog entries into it
 * New: Add inline documentation for hooks
 * Change: Initialize plugin on 'plugins_loaded' action instead of on load
 * Change: Merge `do_init()` into `init()`
@@ -182,106 +183,7 @@ Details:
 * Change: Note compatibility through WP 4.5+.
 * Change: Update copyright date (2016).
 
-= 2.4.2 (2015-02-21) =
-* Revert to using `dirname(__FILE__)`; __DIR__ is only supported in PHP 5.3+
-
-= 2.4.1 (2015-02-17) =
-* Add more unit tests
-* Reformat plugin header
-* Use __DIR__ instead of `dirname(__FILE__)`
-* Note compatibility through WP 4.1+
-* Change documentation links to wp.org to be https
-* Minor documentation spacing changes throughout
-* Update copyright date (2015)
-* Add plugin icon
-* Regenerate .pot
-
-= 2.4 (2014-01-23) =
-* Fix to preserve silent publishing status when post gets re-edited after being published
-* Delete meta data if saving a post that doesn't have the checkbox checked
-* Add unit tests
-* Minor documentation improvements
-* Minor code reformatting (spacing, bracing)
-* Note compatibility through WP 3.8+
-* Drop compatibility with version of WP older than 3.6
-* Update copyright date (2014)
-* Regenerate .pot
-* Change donate link
-* Update screenshots
-* Add banner
-
-= 2.3 =
-* Deprecate 'silent_publish_meta_key' filter in favor of 'c2c_silent_publish_meta_key' (but keep it temporarily for backwards compatibility)
-* Don't store the fact that a post was silently published in post meta if the meta key value is blank or false
-	(effectively allows filter to disable custom field usage)
-* Remove private static $textdomain and its use; include textdomain name as string in translation calls
-* Remove function `load_textdomain()`
-* Add check to prevent execution of code if file is directly accessed
-* Re-license as GPLv2 or later (from X11)
-* Add 'License' and 'License URI' header tags to readme.txt and plugin file
-* Regenerate .pot
-* Minor improvements to inline and readme documentation
-* Minor code reformatting
-* Remove ending PHP close tag
-* Note compatibility through WP 3.5+
-* Tweak installation instructions in readme.txt
-* Update copyright date (2013)
-* Move screenshots into repo's assets directory
-
-= 2.2.1 =
-* Add version() to return plugin's version
-* Update readme with example and documentation for new filter
-* Note compatibility through WP 3.3+
-* Update screenshots for WP 3.3
-* Use DIRECTORY_SEPARATOR instead of hardcoded '/'
-* Create 'lang' subdirectory and move .pot file into it
-* Regenerate .pot
-* Add 'Domain Path' directive to top of main plugin file
-* Add link to plugin directory page to readme.txt
-* Update copyright date (2012)
-
-= 2.2 =
-* Fix bug where using Quick Edit on post caused Silent Publish status to be cleared
-* Add filter 'c2c_silent_publish_default' to allow configuring checkbox to be checked by default
-* Note compatibility through WP 3.2+
-* Minor code formatting changes (spacing)
-* Fix plugin homepage and author links in description in readme.txt
-
-= 2.1 =
-* Switch from object instantiation to direct class invocation
-* Explicitly declare all functions public static and class variables private static
-* Remove setting unnecessary variable
-* Note compatibility through WP 3.1+
-* Update copyright date (2011)
-
-= 2.0.1 =
-* Bugfix for auto-save losing value of silent publish status
-
-= 2.0 =
-* Re-implemented entire approach
-* Allow overriding of custom field used via 'silent_publish_meta_key' filter
-* Add class of 'c2c-silent-publish' to admin UI div containing checkbox
-* Add filter 'silent_publish_meta_key' to allow overriding custom field key name
-* Remove function add_js(), admin_menu(), add_meta_box()
-* Add functions init(), add_ui(), save_silent_publish_status(), load_textdomain()
-* Add true localization support
-* Move definition of strings into init() and properly support localization
-* Full support for localization
-* Store plugin instance in global variable, $c2c_silent_publish, to allow for external manipulation
-* Remove docs from top of plugin file (all that and more are in readme.txt)
-* Minor code reformatting (spacing)
-* Add PHPDoc documentation
-* Note compatibility with WP 2.9+, 3.0+
-* Drop compatibility with versions of WP older than 2.9
-* Update screenshots
-* Update copyright date
-* Add package info to top of plugin file
-* Add Changelog, Frequently Asked Questions, Filters, and Upgrade Notice sections to readme.txt
-* Add .pot file
-* Add to plugin repository
-
-= 1.0 =
-* Initial release
+= Full changelog is available in [CHANGELOG.md](CHANGELOG.md). =
 
 
 == Upgrade Notice ==
