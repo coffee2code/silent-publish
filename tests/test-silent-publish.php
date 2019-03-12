@@ -306,7 +306,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	public function test_filter_c2c_silent_publish_default() {
 		add_filter( 'c2c_silent_publish_default', '__return_true' );
 
-		$this->assertEquals( '1', c2c_SilentPublish::is_silent_publish_on_by_default() );
+		$this->assertTrue( c2c_SilentPublish::is_silent_publish_on_by_default() );
 	}
 
 	/*

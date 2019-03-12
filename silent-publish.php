@@ -117,9 +117,9 @@ class c2c_SilentPublish {
 		 * @param WP_Post $post    The post.
 		 */
 		if ( (bool) apply_filters( 'c2c_silent_publish_default', false, $post ) ) {
-			$silent_publish_on = '1';
+			$silent_publish_on = true;
 		} else {
-			$silent_publish_on = get_post_meta( $post->ID, self::get_meta_key_name(), true );
+			$silent_publish_on = (bool) get_post_meta( $post->ID, self::get_meta_key_name(), true );
 		}
 
 		return $silent_publish_on;
@@ -205,7 +205,7 @@ class c2c_SilentPublish {
 			'<input id="%1$s" type="checkbox" %2$s %3$s value="1" name="%4$s" />' . "\n",
 			esc_attr( self::$field ),
 			disabled( $disable, true, false ),
-			checked( $silent_publish_on, '1', false ),
+			checked( $silent_publish_on, true, false ),
 			esc_attr( self::$field )
 		);
 
