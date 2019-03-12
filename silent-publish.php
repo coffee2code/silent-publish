@@ -267,6 +267,6 @@ class c2c_SilentPublish {
 
 } // end c2c_SilentPublish
 
-c2c_SilentPublish::init();
+add_action( 'plugins_loaded', array( 'c2c_SilentPublish', 'init' ) );
 
 endif; // end if !class_exists()
