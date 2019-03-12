@@ -98,6 +98,7 @@ class c2c_SilentPublish {
 	 * Returns the name of the meta key.
 	 *
 	 * @since 2.6
+	 * @uses apply_filters() Calls 'c2c_silent_publish_meta_key' with default meta key name.
 	 *
 	 * @return string
 	 */
@@ -105,11 +106,32 @@ class c2c_SilentPublish {
 		// Default value.
 		$meta_key = '_silent-publish';
 
-		// Deprecated as of 2.3.
+		/**
+		 * Filters the name of the custom field key used by the plugin to store a
+		 * post's silten publish status.
+		 *
+		 * @since 2.0
+		 * @deprecated 2.3
+		 *
+		 * @param string $meta_key The name of the meta key used for storing the
+		 *                         value of the post's stealth publish status.
+		 */
 		$meta_key = apply_filters_deprecated( 'silent_publish_meta_key', array( self::$meta_key ), '2.3.0', 'c2c_silent_publish_meta_key' );
 
-		// Apply custom filter to obtain meta key name. Use blank string to disable
-		// saving the silent publish status in a custom field.
+		/**
+		 * Filters the name of the custom field key used by the plugin to store a
+		 * post's silent publish status.
+		 *
+		 * Use a blank string to disable saving the silent publish status in a
+		 * custom field.
+		 *
+		 * @since 2.3
+		 *
+		 * @param string $meta_key The name of the meta key used for storing the
+		 *                         value of the post's silent publish status. If
+		 *                         blank, then the status is not saved. Default
+		 *                         is '_silent-publish'.
+		 */
 		$meta_key = apply_filters( 'c2c_silent_publish_meta_key', $meta_key );
 
 		return $meta_key;
@@ -122,13 +144,23 @@ class c2c_SilentPublish {
 	 * displays disabled when the meta field has a value, or not at all.
 	 *
 	 * @since 2.0
-	 * @uses apply_filters() Calls 'c2c_silent_publish_default' with silent publish state default (false)
+	 * @uses apply_filters() Calls 'c2c_silent_publish_default' with silent publish state default.
 	 */
 	public static function add_ui() {
 		global $post;
 
 		$disable = ( 'publish' == $post->post_status );
 
+		/**
+		 * Filters the default state for the silent publish checkbox.
+		 *
+		 * By default, the checkbox is not checked.
+		 *
+		 * @since 2.2
+		 *
+		 * @param bool $default True if the silent publish checkbox should be checked
+		 *                      by default, otherwise false. Default false.
+		 */
 		if ( (bool) apply_filters( 'c2c_silent_publish_default', false, $post ) ) {
 			$value = '1';
 		} else {

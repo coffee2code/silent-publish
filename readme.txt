@@ -123,6 +123,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 == Changelog ==
 
 = () =
+* New: Add inline documentation for hooks
 * Change: Initialize plugin on 'plugins_loaded' action instead of on load
 * Change: Merge `do_init()` into `init()`
 * Change: Use `apply_filters_deprecated()` to formally deprecate the 'silent_publish_meta_key' filter
