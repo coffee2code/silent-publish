@@ -116,7 +116,7 @@ class c2c_SilentPublish {
 		 * @param string $meta_key The name of the meta key used for storing the
 		 *                         value of the post's stealth publish status.
 		 */
-		$meta_key = apply_filters_deprecated( 'silent_publish_meta_key', array( self::$meta_key ), '2.3.0', 'c2c_silent_publish_meta_key' );
+		$meta_key = apply_filters_deprecated( 'silent_publish_meta_key', array( $meta_key ), '2.3.0', 'c2c_silent_publish_meta_key' );
 
 		/**
 		 * Filters the name of the custom field key used by the plugin to store a
