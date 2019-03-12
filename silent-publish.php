@@ -106,7 +106,7 @@ class c2c_SilentPublish {
 		$meta_key = '_silent-publish';
 
 		// Deprecated as of 2.3.
-		$meta_key = apply_filters( 'silent_publish_meta_key', $meta_key );
+		$meta_key = apply_filters_deprecated( 'silent_publish_meta_key', array( self::$meta_key ), '2.3.0', 'c2c_silent_publish_meta_key' );
 
 		// Apply custom filter to obtain meta key name. Use blank string to disable
 		// saving the silent publish status in a custom field.
