@@ -56,7 +56,7 @@ class c2c_SilentPublish {
 	 * @access private
 	 * @var string
 	 */
-	private static $field    = 'silent_publish';
+	private static $field = 'silent_publish';
 
 	/**
 	 * Prevents instantiation.
