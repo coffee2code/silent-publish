@@ -95,6 +95,37 @@ class c2c_SilentPublish {
 	}
 
 	/**
+	 * Determines if silent publish should be enabled for posts by default.
+	 *
+	 * @since 2.7
+	 *
+	 * @return bool True if the silent publish is enabled for a post by default,
+	 *              otherwise false. Default false.
+	 */
+	public static function is_silent_publish_on_by_default() {
+		global $post;
+
+		/**
+		 * Filters the default state for the silent publish checkbox.
+		 *
+		 * By default, the checkbox is not checked.
+		 *
+		 * @since 2.6
+		 *
+		 * @param bool    $default True if the silent publish checkbox should be
+		 *                         checked by default, otherwise false. Default false.
+		 * @param WP_Post $post    The post.
+		 */
+		if ( (bool) apply_filters( 'c2c_silent_publish_default', false, $post ) ) {
+			$silent_publish_on = '1';
+		} else {
+			$silent_publish_on = get_post_meta( $post->ID, self::get_meta_key_name(), true );
+		}
+
+		return $silent_publish_on;
+	}
+
+	/**
 	 * Returns the name of the meta key.
 	 *
 	 * @since 2.6
@@ -151,25 +182,11 @@ class c2c_SilentPublish {
 
 		$disable = ( 'publish' == $post->post_status );
 
-		/**
-		 * Filters the default state for the silent publish checkbox.
-		 *
-		 * By default, the checkbox is not checked.
-		 *
-		 * @since 2.2
-		 *
-		 * @param bool $default True if the silent publish checkbox should be checked
-		 *                      by default, otherwise false. Default false.
-		 */
-		if ( (bool) apply_filters( 'c2c_silent_publish_default', false, $post ) ) {
-			$value = '1';
-		} else {
-			$value = get_post_meta( $post->ID, self::get_meta_key_name(), true );
-		}
+		$silent_publish_on = self::is_silent_publish_on_by_default();
 
 		// If post is already published and was not published silently, no need to
 		// show empty checkbox.
-		if ( $disable && ! $value ) {
+		if ( $disable && ! $silent_publish_on ) {
 			return;
 		}
 
@@ -188,7 +205,7 @@ class c2c_SilentPublish {
 			'<input id="%1$s" type="checkbox" %2$s %3$s value="1" name="%4$s" />' . "\n",
 			esc_attr( self::$field ),
 			disabled( $disable, true, false ),
-			checked( $value, '1', false ),
+			checked( $silent_publish_on, '1', false ),
 			esc_attr( self::$field )
 		);
 

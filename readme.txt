@@ -123,6 +123,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 == Changelog ==
 
 = () =
+* New: Add `is_silent_publish_on_by_default()` to determine if silent publish should be enabled for posts by default
 * New: Add CHANGELOG.md and move all but most recent changelog entries into it
 * New: Add inline documentation for hooks
 * Change: Initialize plugin on 'plugins_loaded' action instead of on load

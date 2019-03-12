@@ -19,6 +19,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 		remove_filter( 'c2c_silent_publish_meta_key', array( $this, 'c2c_silent_publish_meta_key' ) );
 		remove_filter( 'c2c_silent_publish_meta_key', '__return_empty_string' );
+		remove_filter( 'c2c_silent_publish_default',  '__return_true' );
 		remove_action( 'publish_post',                array( $this, 'check_publish_post_hook' ), 4, 1 );
 		remove_action( 'publish_post',                array( $this, 'check_publish_post_hook' ), 6, 1 );
 	}
@@ -296,6 +297,16 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 		$this->assertEmpty( $output );
 		$this->assert_form_output( $output, false, true );
+	}
+
+	public function test_is_silent_publish_on_by_default() {
+		$this->assertFalse( c2c_SilentPublish::is_silent_publish_on_by_default() );
+	}
+
+	public function test_filter_c2c_silent_publish_default() {
+		add_filter( 'c2c_silent_publish_default', '__return_true' );
+
+		$this->assertEquals( '1', c2c_SilentPublish::is_silent_publish_on_by_default() );
 	}
 
 	/*
