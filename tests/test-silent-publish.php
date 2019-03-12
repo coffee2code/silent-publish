@@ -92,8 +92,8 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assertEquals( '2.6.1', c2c_SilentPublish::version() );
 	}
 
-	public function test_init_action_triggers_do_init() {
-		$this->assertNotFalse( has_filter( 'init', array( 'c2c_SilentPublish', 'do_init' ) ) );
+	public function test_plugins_loaded_action_triggers_do_init() {
+		$this->assertNotFalse( has_filter( 'plugins_loaded', array( 'c2c_SilentPublish', 'init' ) ) );
 	}
 
 	public function test_post_submitbox_misc_action_triggers_add_ui() {
