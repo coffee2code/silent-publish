@@ -85,16 +85,6 @@ class c2c_SilentPublish {
 	 * Initializer.
 	 */
 	public static function init() {
-		add_action( 'init', array( __CLASS__, 'do_init' ) );
-	}
-
-	/**
-	 * Performs initialization tasks such as registering hooks.
-	 *
-	 * @since 2.0
-	 * @uses apply_filters() Calls 'c2c_silent_publish_meta_key' with default meta key name.
-	 */
-	public static function do_init() {
 		// Load textdomain.
 		load_plugin_textdomain( 'silent-publish' );
 
