@@ -128,6 +128,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * New: Add CHANGELOG.md and move all but most recent changelog entries into it
 * New: Add inline documentation for hooks
 * New: Add .gitignore
+* Fix: Check if there is actually a global post in `is_silent_publish_on_by_default()` before attempting to use it
 * Fix: Use proper variable name when obtaining default meta key name
 * Change: Initialize plugin on 'plugins_loaded' action instead of on load
 * Change: Merge `do_init()` into `init()`

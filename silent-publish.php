@@ -148,8 +148,10 @@ class c2c_SilentPublish {
 		 */
 		if ( (bool) apply_filters( 'c2c_silent_publish_default', false, $post ) ) {
 			$silent_publish_on = true;
-		} else {
+		} elseif ( $post ) {
 			$silent_publish_on = (bool) get_post_meta( $post->ID, self::get_meta_key_name(), true );
+		} else {
+			$silent_publish_on = false;
 		}
 
 		return $silent_publish_on;
