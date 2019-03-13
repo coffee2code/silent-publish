@@ -92,6 +92,7 @@ class c2c_SilentPublish {
 		add_action( 'post_submitbox_misc_actions', array( __CLASS__, 'add_ui' ) );
 		add_filter( 'save_post',                   array( __CLASS__, 'save_silent_publish_status' ), 2, 3 );
 		add_action( 'publish_post',                array( __CLASS__, 'publish_post' ), 1, 1 );
+		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'enqueue_block_editor_assets' )   );
 		add_action( 'init',                        array( __CLASS__, 'register_meta' ) );
 	}
 
@@ -122,6 +123,53 @@ class c2c_SilentPublish {
 		else {
 			register_meta( 'post', self::get_meta_key_name(), $config );
 		}
+	}
+
+
+	/**
+	 * Enqueues JavaScript and CSS for the block editor.
+	 *
+	 * @since 2.7
+	 */
+	public static function enqueue_block_editor_assets() {
+		global $post;
+
+		if ( ! function_exists( 'register_block_type' ) ) {
+			return;
+		}
+
+		// If post is already published and was not published silently, no need to
+		// show empty checkbox.
+		if ( ! $post || ( 'publish' === $post->post_status && ! self::is_silent_publish_on_by_default() ) ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'silent-publish-js',
+			plugins_url( 'assets/js/editor.js', __FILE__ ),
+			array(
+				'wp-components',
+				'wp-data',
+				'wp-edit-post',
+				'wp-editor',
+				'wp-element',
+				'wp-i18n',
+				'wp-plugins',
+			),
+			self::version(),
+			true
+		);
+
+		wp_enqueue_style(
+			'silent-publish',
+			plugins_url( 'assets/css/editor.css', __FILE__ ),
+			array(),
+			self::version()
+		);
+
+		//if ( function_exists( 'wp_set_script_translations' ) ) {
+		//	wp_set_script_translations( 'silent-publish-js', 'silent-publish-js', \dirname( __DIR__ ) . '/languages' );
+		//}
 	}
 
 	/**

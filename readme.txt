@@ -37,7 +37,7 @@ Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [P
 
 == Screenshots ==
 
-1. A screenshot of the 'Publish' sidebar box on the Add New Post admin page. The 'Publish silently?' checkbox is integrated alongside the existing fields.
+1. A screenshot of the 'Publish' sidebar box on the Add New Post admin page (for versions of WordPress older than 5.0, or later if the new block editor aka Gutenberg is disabled). The 'Publish silently?' checkbox is integrated alongside the existing fields.
 2. A screenshot of the 'Silent publish?' checkbox displaying help text when hovering over the checkbox.
 
 
@@ -123,6 +123,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 == Changelog ==
 
 = () =
+* New: Add support for new block editor (aka Gutenberg)
 * New: Add `is_silent_publish_on_by_default()` to determine if silent publish should be enabled for posts by default
 * New: Add `register_meta()` and properly register the existence of the post meta field
 * New: Add CHANGELOG.md and move all but most recent changelog entries into it
