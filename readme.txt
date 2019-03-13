@@ -21,18 +21,18 @@ In every other manner, the post is published as usual: it'll appear on the front
 
 While trackbacks and pingsbacks can already be disabled from the Add New Post/Page page, this plugin makes things easier by allowing a single checkbox to disable those things, in addition to disabling notification of update services which otherwise could only be disabled by clearing the value of the global setting, which would then affect all authors and any subsequently published posts.
 
-If a post is silently published, a custom field '_silent_publish' for the post is set to a value of 1 as a means of recording the action. However, this value is not used after publish for any purpose as of yet. Nor is the custom field unset or changed if the post is later re-published.
+If a post is silently published, a custom field '_silent-publish' for the post is set to a value of 1 as a means of recording the action. However, this value is not used after publish for any purpose as of yet. Nor is the custom field unset or changed if the post is later re-published.
 
-Also see my [Stealth Publish](https://wordpress.org/plugins/stealth-publish/) plugin if you want make a new post but prevent it from appearing on the front page of your blog and in feeds. (That plugin incorporates this plugin's functionality, so you won't need both.)
+Also see my [Stealth Publish](https://wordpress.org/plugins/stealth-publish/) plugin if you want to make a new post but prevent it from appearing on the front page of your blog and in feeds. (That plugin incorporates this plugin's functionality, so you won't need both.)
 
 Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [Plugin Directory Page](https://wordpress.org/plugins/silent-publish/) | [GitHub](https://github.com/coffee2code/silent-publish/) | [Author Homepage](http://coffee2code.com)
 
 
 == Installation ==
-1. Whether installing or updating, whether this plugin or any other, it is always advisable to back-up your data before starting
-2. Install via the built-in WordPress plugin installer. Or download and unzip `silent-publish.zip` inside the plugins directory for your site (typically `wp-content/plugins/`)
-3. Activate the plugin through the 'Plugins' admin menu in WordPress
-4. Click the 'Publish silently?' checkbox when publishing a post to prevent triggering of pingbacks, trackbacks, or notifications to update services.
+0. Whether installing or updating, whether this plugin or any other, it is always advisable to back-up your data before starting
+1. Install via the built-in WordPress plugin installer. Or download and unzip `silent-publish.zip` inside the plugins directory for your site (typically `wp-content/plugins/`)
+2. Activate the plugin through the 'Plugins' admin menu in WordPress
+3. Click the 'Publish silently?' checkbox when publishing a post to prevent triggering of pingbacks, trackbacks, or notifications to update services.
 
 
 == Screenshots ==
