@@ -92,6 +92,36 @@ class c2c_SilentPublish {
 		add_action( 'post_submitbox_misc_actions', array( __CLASS__, 'add_ui' ) );
 		add_filter( 'save_post',                   array( __CLASS__, 'save_silent_publish_status' ), 2, 3 );
 		add_action( 'publish_post',                array( __CLASS__, 'publish_post' ), 1, 1 );
+		add_action( 'init',                        array( __CLASS__, 'register_meta' ) );
+	}
+
+	/**
+	 * Registers the post meta field.
+	 *
+	 * @since 2.7
+	 */
+	public static function register_meta() {
+		$config = array(
+			'type'              => 'boolean',
+			'description'       => __( 'Publish the post silently?', 'silent-publish' ),
+			'single'            => true,
+			'sanitize_callback' => function ( $value ) {
+				return (bool) $value;
+			},
+			'auth_callback'     => function() {
+				return current_user_can( 'edit_posts' );
+			},
+			'show_in_rest'      => true,
+		);
+
+		if ( function_exists( 'register_post_meta' ) ) {
+			// @todo Support non-"post" post types.
+			register_post_meta( 'post', self::get_meta_key_name(), $config );
+		}
+		// Pre WP 4.9.8 support
+		else {
+			register_meta( 'post', self::get_meta_key_name(), $config );
+		}
 	}
 
 	/**
