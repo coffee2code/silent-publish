@@ -131,6 +131,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * Fix: Use proper variable name when obtaining default meta key name
 * Change: Initialize plugin on 'plugins_loaded' action instead of on load
 * Change: Merge `do_init()` into `init()`
+* Change: Update unit test install script and bootstrap to use latest WP unit test repo
 * Change: Use `apply_filters_deprecated()` to formally deprecate the 'silent_publish_meta_key' filter
 * Change: Note compatibility through WP 5.1+
 * Change: Update copyright date (2019)
