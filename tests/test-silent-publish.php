@@ -190,7 +190,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 		// Publishing assumes it's coming from the edit page UI where the
 		// checkbox is present to set the $_POST array element to trigger
-		// stealth update
+		// silent update
 		$_POST[ $this->field ] = '1';
 		$_POST[ $this->nonce ] = wp_create_nonce( $this->field );
 
@@ -219,7 +219,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 		// Publishing assumes it's coming from the edit page UI where the
 		// checkbox is present to set the $_POST array element to trigger
-		// stealth update
+		// silent update
 		unset( $_POST[ $this->field ] );
 		$_POST[ $this->nonce ] = wp_create_nonce( $this->field );
 
