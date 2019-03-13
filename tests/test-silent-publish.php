@@ -10,6 +10,12 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 	private   $hooked   = -1;
 
+	public function setUp() {
+		parent::setUp();
+
+		c2c_SilentPublish::register_meta();
+	}
+
 	public function tearDown() {
 		parent::tearDown();
 
@@ -171,6 +177,10 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 	public function test_get_meta_key_name() {
 		$this->assertEquals( '_silent-publish', c2c_SilentPublish::get_meta_key_name() );
+	}
+
+	public function test_meta_key_is_registered() {
+		$this->assertTrue( registered_meta_key_exists( 'post', c2c_SilentPublish::get_meta_key_name(), 'post' ) );
 	}
 
 	public function test_filtered_get_meta_key_name() {
