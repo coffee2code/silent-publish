@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.6
 Tested up to: 5.1
-Stable tag: 2.6.1
+Stable tag: 2.7
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
@@ -122,7 +122,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 
 == Changelog ==
 
-= () =
+= 2.7 (2019-03-12) =
 * New: Add support for new block editor (aka Gutenberg)
 * New: Add `is_silent_publish_on_by_default()` to determine if silent publish should be enabled for posts by default
 * New: Add `register_meta()` and properly register the existence of the post meta field
@@ -173,28 +173,13 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * Change: Add more unit tests
 * Change: Update copyright date (2017)
 
-= 2.5 (2016-03-28) =
-Highlights:
-* This release adds support for language packs and has some minor behind-the-scenes changes.
-
-Details:
-* Change: Run `esc_attr()` on the field name before display for safety.
-* Change: Don't run `esc_attr()` on meta key name as it need not be so restrictive (and isn't for display).
-* Change: Add support for language packs:
-    * Don't load textdomain from file.
-    * Remove 'Domain Path' from plugin header.
-    * Remove .pot file and /lang subdirectory.
-* New: Add LICENSE file.
-* New: Add empty index.php to prevent files from being listed if web server has enabled directory listings.
-* Change: Add docblocks for class variables.
-* Change: Add docblock to example code.
-* Change: Note compatibility through WP 4.5+.
-* Change: Update copyright date (2016).
-
 = Full changelog is available in [CHANGELOG.md](CHANGELOG.md). =
 
 
 == Upgrade Notice ==
+
+= 2.7 =
+Recommended update: added support for the new block editor (aka Gutenberg), modified initialization handling, noted compatibility through WP 5.1+, updated copyright date (2019), and more.
 
 = 2.6.1 =
 Trivial update: fixed a couple broken unit tests, noted compatibility through WP 4.9+, added README.md for GitHub, and updated copyright date (2018)

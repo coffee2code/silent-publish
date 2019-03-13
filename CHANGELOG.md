@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.7 _(2019-03-12)_
+* New: Add support for new block editor (aka Gutenberg)
+* New: Add `is_silent_publish_on_by_default()` to determine if silent publish should be enabled for posts by default
+* New: Add `register_meta()` and properly register the existence of the post meta field
+* New: Add CHANGELOG.md and move all but most recent changelog entries into it
+* New: Add inline documentation for hooks
+* New: Add .gitignore
+* Fix: Check if there is actually a global post in `is_silent_publish_on_by_default()` before attempting to use it
+* Fix: Use proper variable name when obtaining default meta key name
+* Change: Initialize plugin on 'plugins_loaded' action instead of on load
+* Change: Merge `do_init()` into `init()`
+* Change: Update unit test install script and bootstrap to use latest WP unit test repo
+* Change: Use `apply_filters_deprecated()` to formally deprecate the 'silent_publish_meta_key' filter
+* Fix: Correct typo in GitHub URL
+* Change: Note compatibility through WP 5.1+
+* Change: Update copyright date (2019)
+* Change: Update License URI to be HTTPS
+
 ## 2.6.1 _(2018-07-12)_
 * New: Add README.md
 * New: Add GitHub link to readme
@@ -34,10 +52,13 @@
 * Change: Update copyright date (2017)
 
 ## 2.5 _(2016-03-28)_
-Highlights:
+
+### Highlights:
+
 * This release adds support for language packs and has some minor behind-the-scenes changes.
 
-Details:
+### Details:
+
 * Change: Run `esc_attr()` on the field name before display for safety.
 * Change: Don't run `esc_attr()` on meta key name as it need not be so restrictive (and isn't for display).
 * Change: Add support for language packs:

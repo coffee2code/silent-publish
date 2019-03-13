@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Silent Publish
- * Version:     2.6.1
+ * Version:     2.7
  * Plugin URI:  http://coffee2code.com/wp-plugins/silent-publish/
  * Author:      Scott Reilly
  * Author URI:  http://coffee2code.com/
@@ -18,7 +18,7 @@
  *
  * @package Silent_Publish
  * @author  Scott Reilly
- * @version 2.6.1
+ * @version 2.7
  */
 
 /**
@@ -78,7 +78,7 @@ class c2c_SilentPublish {
 	 * @since 2.2.1
 	 */
 	public static function version() {
-		return '2.6.1';
+		return '2.7';
 	}
 
 	/**
