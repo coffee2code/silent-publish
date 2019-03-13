@@ -25,7 +25,7 @@ If a post is silently published, a custom field '_silent_publish' for the post i
 
 Also see my [Stealth Publish](https://wordpress.org/plugins/stealth-publish/) plugin if you want make a new post but prevent it from appearing on the front page of your blog and in feeds. (That plugin incorporates this plugin's functionality, so you won't need both.)
 
-Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [Plugin Directory Page](https://wordpress.org/plugins/silent-publish/) | [GitHub](https://github.com/coffe2code/silent-publish/) | [Author Homepage](http://coffee2code.com)
+Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [Plugin Directory Page](https://wordpress.org/plugins/silent-publish/) | [GitHub](https://github.com/coffee2code/silent-publish/) | [Author Homepage](http://coffee2code.com)
 
 
 == Installation ==
@@ -133,6 +133,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * Change: Merge `do_init()` into `init()`
 * Change: Update unit test install script and bootstrap to use latest WP unit test repo
 * Change: Use `apply_filters_deprecated()` to formally deprecate the 'silent_publish_meta_key' filter
+* Fix: Correct typo in GitHub URL
 * Change: Note compatibility through WP 5.1+
 * Change: Update copyright date (2019)
 * Change: Update License URI to be HTTPS
