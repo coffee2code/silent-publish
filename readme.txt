@@ -173,7 +173,7 @@ add_filter( 'c2c_silent_publish_default', '__return_true' );
 * Change: Add more unit tests
 * Change: Update copyright date (2017)
 
-= Full changelog is available in [CHANGELOG.md](CHANGELOG.md). =
+_Full changelog is available in [CHANGELOG.md](https://github.com/coffee2code/silent-publish/blob/master/CHANGELOG.md)._
 
 
 == Upgrade Notice ==
