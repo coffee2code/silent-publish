@@ -1,5 +1,8 @@
 # Changelog
 
+## _(in-progress)_
+* Change: Note compatibility through WP 5.3+
+
 ## 2.7 _(2019-03-12)_
 * New: Add support for new block editor (aka Gutenberg)
 * New: Add `is_silent_publish_on_by_default()` to determine if silent publish should be enabled for posts by default
