@@ -3,6 +3,7 @@
 ## _(in-progress)_
 * Change: Note compatibility through WP 5.3+
 * Change: Use full URL for readme.txt link to full changelog
+* Change: Split paragraph in README.md's "Support" section into two
 * Change: Add link to CHANGELOG.md in README.md
 * Change: Update copyright date (2020)
 
