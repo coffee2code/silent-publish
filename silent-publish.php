@@ -259,9 +259,15 @@ class c2c_SilentPublish {
 
 		$silent_publish_on = self::is_silent_publish_on_by_default();
 
-		// If post is already published and was not published silently, no need to
-		// show empty checkbox.
-		if ( $disable && ! $silent_publish_on ) {
+		// Bail if post is already published.
+		if ( $disable ) {
+			// Output a message only if post was silently published.
+			if ( $silent_publish_on ) {
+				printf(
+					'<div class="misc-pub-section"><em>%s</em></div>',
+					__( 'This post was silently published.', 'silent-publish' )
+				);
+			}
 			return;
 		}
 

@@ -24,17 +24,30 @@ export class SilentPublish extends Component {
 			updateMeta,
 		} = this.props;
 
-		const SilentPublishCheckbox = <CheckboxControl
-					label={ __( 'Silent publish?', 'silent-publish' ) }
-//					help={ __( 'Publish withou pingbacks, trackbacks, or update service notifications?', 'silent-publish' ) }
-					checked={ SilentPublished }
-					onChange={ ( SilentPublished ) => {
-						updateMeta( { '_silent-publish': SilentPublished || false } );
-					} }
-					/>;
+		let is_disabled = false; // For potential future use.
 
-		const SilentPublishField = is_published ?
-					<Disabled className="silent-publish-disabled">{ SilentPublishCheckbox }</Disabled> : SilentPublishCheckbox;
+		let SilentPublishField = false;
+
+		if ( true === is_published ) {
+			// Output message only if post was silently published.
+			if ( SilentPublished ) {
+				SilentPublishField = ( <span class="silent-published"> { __( 'This post was silently published.', 'silent-publish' ) } </span> );
+			} else {
+				return false;
+			}
+		} else {
+			const SilentPublishCheckbox = <CheckboxControl
+				label={ __( 'Silent publish?', 'silent-publish' ) }
+//				help={ __( 'Publish without pingbacks, trackbacks, or update service notifications?', 'silent-publish' ) }
+				checked={ SilentPublished }
+				onChange={ ( SilentPublished ) => {
+					updateMeta( { '_silent-publish': SilentPublished || false } );
+				} }
+				/>;
+
+			SilentPublishField = is_disabled ?
+				<Disabled className="silent-publish-disabled">{ SilentPublishCheckbox }</Disabled> : SilentPublishCheckbox;
+		}
 
 		return (
 			<PluginPostStatusInfo>
