@@ -1,6 +1,7 @@
 # Changelog
 
 ## _(in-progress)_
+* New: Add TODO.md and move existing TODO list from top of main plugin file into it (and add more items to the list)
 * Change: Note compatibility through WP 5.3+
 * Change: Use full URL for readme.txt link to full changelog
 * Change: Split paragraph in README.md's "Support" section into two

@@ -21,11 +21,6 @@
  * @version 2.7
  */
 
-/**
- * TODO:
- * - Support popular social media plugins to also prevent broadcasting post via tweets, etc.
- */
-
 /*
 	Copyright (c) 2009-2020 by Scott Reilly (aka coffee2code)
 
