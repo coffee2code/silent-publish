@@ -285,31 +285,19 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assert_form_output( $output, true, false );
 	}
 
-	public function test_form_elements_are_output_for_published_post_with_meta_set() {
+	public function test_add_ui_when_post_was_silently_published() {
 		$this->create_post( 'publish', true );
 
-		ob_start();
-		c2c_SilentPublish::add_ui();
-		$output = ob_get_contents();
-		ob_end_clean();
-
-		$this->assertNotEmpty( $output );
-		$this->assert_form_output( $output, true, true );
+		$this->expectOutputRegex(
+			'~' . preg_quote( '<div class="misc-pub-section"><em>This post was silently published.</em></div>' ) . '~',
+			c2c_SilentPublish::add_ui()
+		);
 	}
 
-	public function test_form_elements_not_output_hidden_for_published_post_without_meta() {
-		global $post;
+	public function test_add_ui_when_post_was_published_and_not_silently() {
+		$this->create_post( 'publish', false );
 
-		$post_id = $this->factory->post->create( array( 'post_status' => 'publish' ) );
-		$post = get_post( $post_id );
-
-		ob_start();
-		c2c_SilentPublish::add_ui();
-		$output = ob_get_contents();
-		ob_end_clean();
-
-		$this->assertEmpty( $output );
-		$this->assert_form_output( $output, false, true );
+		$this->expectOutputRegex( '/^$/', c2c_SilentPublish::add_ui() );
 	}
 
 	/*
