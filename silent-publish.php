@@ -88,6 +88,7 @@ class c2c_SilentPublish {
 		add_filter( 'save_post',                   array( __CLASS__, 'save_silent_publish_status' ), 2, 3 );
 		add_action( 'publish_post',                array( __CLASS__, 'publish_post' ), 1, 1 );
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'enqueue_block_editor_assets' )   );
+		add_filter( 'post_date_column_time',       array( __CLASS__, 'add_icon_to_post_date_column' ), 10, 4 );
 		add_action( 'init',                        array( __CLASS__, 'register_meta' ) );
 	}
 
@@ -120,6 +121,34 @@ class c2c_SilentPublish {
 		}
 	}
 
+	/**
+	 * Outputs an icon next to post's 'Date' column field value if post was
+	 * or will be silently published.
+	 *
+	 * @since 2.8
+	 *
+	 * @param string  $t_time      The published time.
+	 * @param WP_Post $post        Post object.
+	 * @param string  $column_name The column name.
+	 * @param string  $mode        The list display mode ('excerpt' or 'list').
+	 */
+	public static function add_icon_to_post_date_column( $h_time, $post, $column_name, $mode ) {
+		echo $h_time;
+
+		if ( get_post_meta( $post->ID, self::get_meta_key_name(), true ) ) {
+			if ( 'publish' === $post->post_status ) {
+				$msg = __( 'Post was silently published.', 'silent-publish' );
+			} else {
+				$msg = __( 'Post will be silently published.', 'silent-publish' );
+			}
+
+			printf(
+				' <span class="%s dashicons dashicons-controls-volumeoff" title="%s"></span>',
+				esc_attr( self::$field ),
+				esc_attr( $msg )
+			);
+		}
+	}
 
 	/**
 	 * Enqueues JavaScript and CSS for the block editor.

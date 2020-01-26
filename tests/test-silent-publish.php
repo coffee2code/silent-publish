@@ -315,6 +315,51 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	}
 
 	/*
+	 * add_icon_to_post_date_column()
+	 */
+
+	public function test_add_icon_to_post_date_column_on_draft_not_silent() {
+		$post = $this->create_post( 'draft', false );
+		$time = 'Last Modified<br>2020/01/18<span title="2020/01/18 1:50:47 am"></span>';
+
+		$this->expectOutputRegex(
+			'~^' . preg_quote( $time ) . '$~',
+			c2c_SilentPublish::add_icon_to_post_date_column( $time, $post, 'Date', 'list' )
+		);
+	}
+
+	public function test_add_icon_to_post_date_column_on_draft_silent() {
+		$post = $this->create_post( 'draft', true );
+
+		$time = 'Last Modified<br>2020/01/18<span title="2020/01/18 1:50:47 am"></span>';
+
+		$this->expectOutputRegex(
+			'~^' . $time . ' <span class="silent_publish dashicons dashicons-controls-volumeoff" title="Post will be silently published."></span>' . '$~',
+			c2c_SilentPublish::add_icon_to_post_date_column( $time, $post, 'Date', 'list' )
+		);
+	}
+
+	public function test_add_icon_to_post_date_column_on_publish_not_silent() {
+		$post = $this->create_post( 'publish', false );
+		$time = 'Published<br>2020/01/18<span title="2020/01/18 1:50:47 am"></span>';
+
+		$this->expectOutputRegex(
+			'~^' . preg_quote( $time ) . '$~',
+			c2c_SilentPublish::add_icon_to_post_date_column( $time, $post, 'Date', 'list' )
+		);
+	}
+
+	public function test_add_icon_to_post_date_column_on_publish_silent() {
+		$post = $this->create_post( 'publish', true );
+		$time = 'Published<br>2020/01/18<span title="2020/01/18 1:50:47 am"></span>';
+
+		$this->expectOutputRegex(
+			'~^' . $time . ' <span class="silent_publish dashicons dashicons-controls-volumeoff" title="Post was silently published."></span>' . '$~',
+			c2c_SilentPublish::add_icon_to_post_date_column( $time, $post, 'Date', 'list' )
+		);
+	}
+
+	/*
 	 * Check filter gets unhooked.
 	 */
 

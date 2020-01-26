@@ -9,7 +9,7 @@ The following list comprises ideas, suggestions, and known issues, all of which 
   https://jetpack.com/2013/05/03/remove-publicize-meta-box-from-the-new-post/
 * Gutenberg: Add publish confirmation panel widget to indicate if the post will be published silently or not.
 * Instead of showing the disabled checkbutton when viewing a published post that was silently published, just show an message instead (e.g. "This post was silently published.")
-* Add screenshot for block editor field
+* Add screenshot for block editor field (form and when published silently), post submitbox (when published silently)
 * Add mute icon next to published date on post listing for silently published posts
 
 Feel free to make your own suggestions or champion for something already on the list (via the [plugin's support forum on WordPress.org](https://wordpress.org/support/plugin/silent-publish/) or on [GitHub](https://github.com/coffee2code/silent-publish/) as an issue or PR).

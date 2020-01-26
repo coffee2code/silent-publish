@@ -1,6 +1,7 @@
 # Changelog
 
 ## _(in-progress)_
+* New: Add icon to 'Date' column of post listing to indicate posts that were or will be silently published
 * New: Add TODO.md and move existing TODO list from top of main plugin file into it (and add more items to the list)
 * Change: Show message instead of disabled checkbox when editing silently published post and show nothing for published posts that weren't silently published
 * Unit tests:
