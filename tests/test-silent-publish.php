@@ -262,10 +262,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	 */
 
 	public function test_form_elements_are_output_for_unpublished_post() {
-		global $post;
-
-		$post_id = $this->factory->post->create( array( 'post_status' => 'draft' ) );
-		$post = get_post( $post_id );
+		$this->create_post( 'draft', false );
 
 		ob_start();
 		c2c_SilentPublish::add_ui();
@@ -277,11 +274,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	}
 
 	public function test_form_elements_are_output_for_unpublished_post_with_meta_set() {
-		global $post;
-
-		$post_id = $this->factory->post->create( array( 'post_status' => 'draft' ) );
-		update_post_meta( $post_id, $this->meta_key, '1' );
-		$post = get_post( $post_id );
+		$this->create_post( 'draft', true );
 
 		ob_start();
 		c2c_SilentPublish::add_ui();
@@ -293,11 +286,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	}
 
 	public function test_form_elements_are_output_for_published_post_with_meta_set() {
-		global $post;
-
-		$post_id = $this->factory->post->create( array( 'post_status' => 'publish' ) );
-		add_post_meta( $post_id, $this->meta_key, '1' );
-		$post = get_post( $post_id );
+		$this->create_post( 'publish', true );
 
 		ob_start();
 		c2c_SilentPublish::add_ui();
