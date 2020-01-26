@@ -3,6 +3,8 @@
 ## _(in-progress)_
 * New: Add TODO.md and move existing TODO list from top of main plugin file into it (and add more items to the list)
 * Change: Show message instead of disabled checkbox when editing silently published post and show nothing for published posts that weren't silently published
+* Unit tests:
+    * New: Add helper function `create_post()`
 * Change: Note compatibility through WP 5.3+
 * Change: Use full URL for readme.txt link to full changelog
 * Change: Split paragraph in README.md's "Support" section into two
