@@ -323,6 +323,10 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assert_form_output( $output, false, true );
 	}
 
+	/*
+	 * is_silent_publish_on_by_default()
+	 */
+
 	public function test_is_silent_publish_on_by_default() {
 		$this->assertFalse( c2c_SilentPublish::is_silent_publish_on_by_default() );
 	}
