@@ -42,10 +42,10 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		return '_new-key';
 	}
 
-	public function create_post( $status = 'publish', $silently_publish = false ) {
+	public function create_post( $status = 'publish', $silently_publish = false, $post_type = 'post' ) {
 		global $post;
 
-		$post_id = $this->factory->post->create( array( 'post_status' => $status ) );
+		$post_id = $this->factory->post->create( array( 'post_status' => $status, 'post_type' => $post_type ) );
 
 		if ( $silently_publish ) {
 			add_post_meta( $post_id, $this->meta_key, '1' );
