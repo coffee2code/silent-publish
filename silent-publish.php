@@ -162,6 +162,10 @@ class c2c_SilentPublish {
 			return;
 		}
 
+		if ( ! self::is_silent_publish_enabled( $post ) ) {
+			return;
+		}
+
 		// If post is already published and was not published silently, no need to
 		// show empty checkbox.
 		if ( ! $post || ( 'publish' === $post->post_status && ! self::is_silent_publish_on_by_default() ) ) {
@@ -194,6 +198,31 @@ class c2c_SilentPublish {
 		//if ( function_exists( 'wp_set_script_translations' ) ) {
 		//	wp_set_script_translations( 'silent-publish-js', 'silent-publish-js', \dirname( __DIR__ ) . '/languages' );
 		//}
+	}
+
+	/**
+	 * Determines if silent publishing is enabled for the given post or post
+	 * type.
+	 *
+	 * @since 2.8
+	 *
+	 * @param WP_Post|int|string The ppst object, post ID, or post type name.
+	 * @return bool True if silent publishing is enabled, false otherwise.
+	 */
+	public static function is_silent_publish_enabled( $post ) {
+		if ( is_a( $post,  'WP_Post' ) || is_int( $post ) ) {
+			$post_type = get_post_type( $post );
+		} else {
+			$post_type = $post;
+		}
+
+		if ( ! $post_type ) {
+			return false;
+		}
+
+		$post_types = self::get_post_types();
+
+		return in_array( $post_type, $post_types );
 	}
 
 	/**
@@ -284,6 +313,10 @@ class c2c_SilentPublish {
 	public static function add_ui() {
 		global $post;
 
+		if ( ! self::is_silent_publish_enabled( $post ) ) {
+			return;
+		}
+
 		$disable = ( 'publish' == $post->post_status );
 
 		$silent_publish_on = self::is_silent_publish_on_by_default();
@@ -335,6 +368,10 @@ class c2c_SilentPublish {
 	 * @return array The unmodified $data.
 	 */
 	public static function save_silent_publish_status( $post_id, $post, $update ) {
+		if ( ! self::is_silent_publish_enabled( $post ) ) {
+			return;
+		}
+
 		$meta_key = self::get_meta_key_name();
 
 		// Bail if no meta key name.
@@ -392,6 +429,10 @@ class c2c_SilentPublish {
 	 * @param int $post_id Post ID.
 	 */
 	public static function publish_post( $post_id ) {
+		if ( ! self::is_silent_publish_enabled( $post_id ) ) {
+			return;
+		}
+
 		$meta_key = self::get_meta_key_name();
 
 		// Bail if no meta key name.

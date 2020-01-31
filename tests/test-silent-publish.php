@@ -300,6 +300,19 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->expectOutputRegex( '/^$/', c2c_SilentPublish::add_ui() );
 	}
 
+	public function test_add_ui_when_post_type_is_not_supported() {
+		register_post_type(
+			'sample',
+			array(
+				'public'             => false,
+				'label'              => 'Sample',
+			)
+		);
+		$this->create_post( 'draft', false, 'sample' );
+
+		$this->expectOutputRegex( '/^$/', c2c_SilentPublish::add_ui() );
+	}
+
 	/*
 	 * is_silent_publish_on_by_default()
 	 */
