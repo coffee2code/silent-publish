@@ -78,7 +78,7 @@ Yes.
 
 == Hooks ==
 
-The plugin is further customizable via two filters. Code using these filters should ideally be put into a mu-plugin or site-specific plugin (which is beyond the scope of this readme to explain). Less ideally, you could put them in your active theme's functions.php file.
+The plugin is further customizable via three filters. Code using these filters should ideally be put into a mu-plugin or site-specific plugin (which is beyond the scope of this readme to explain). Less ideally, you could put them in your active theme's functions.php file.
 
 **c2c_silent_publish_meta_key (filter)**
 
@@ -117,6 +117,31 @@ Example:
 `
 // Have the Silent Publish? checkbox checked by default.
 add_filter( 'c2c_silent_publish_default', '__return_true' );
+`
+
+**c2c_silent_publish_post_types (filter)**
+
+The 'c2c_silent_publish_post_types' filter allows you to override the post types that can be silently published.
+
+Arguments:
+
+* $post_types (array): Array of post type names.
+
+Example:
+
+`
+/**
+ * Disable Silent Publish for a custom public post type 'book'.
+ *
+ * @param array $post_types Array of post type names.
+ * @return array
+ */
+function my_c2c_silent_publish_post_types( $post_types ) {
+    $post_types = array_flip( $post_types );
+    unset( $post_types[ 'book' ] );
+    return array_keys( $post_types ).
+}
+add_filter( 'c2c_silent_publish_post_types', 'my_c2c_silent_publish_post_types' );
 `
 
 

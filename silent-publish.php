@@ -201,6 +201,31 @@ class c2c_SilentPublish {
 	}
 
 	/**
+	 * Returns post types that can be silently published.
+	 *
+	 * By default, all public post types are included (except 'attachment').
+	 *
+	 * @since 2.8
+	 * @uses apply_filters() Calls 'c2c_silent_publish_post_types' with silently publishable post types.
+	 *
+	 * @return array
+	 */
+	public static function get_post_types() {
+		$post_types = get_post_types( array( 'public' => true ) );
+
+		unset( $post_types['attachment'] );
+
+		/**
+		 * Filters the post types that can be silently published.
+		 *
+		 * @since 2.8
+		 *
+		 * @param array $post_types Array of post type names.
+		 */
+		return (array) apply_filters( 'c2c_silent_publish_post_types', array_values( $post_types ) );
+	}
+
+	/**
 	 * Determines if silent publishing is enabled for the given post or post
 	 * type.
 	 *
