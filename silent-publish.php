@@ -254,6 +254,7 @@ class c2c_SilentPublish {
 	 * Determines if silent publish should be enabled for posts by default.
 	 *
 	 * @since 2.7
+	 * @uses apply_filters() Calls 'c2c_silent_publish_default' with silent publish state default.
 	 *
 	 * @return bool True if the silent publish is enabled for a post by default,
 	 *              otherwise false. Default false.
@@ -333,7 +334,6 @@ class c2c_SilentPublish {
 	 * displays disabled when the meta field has a value, or not at all.
 	 *
 	 * @since 2.0
-	 * @uses apply_filters() Calls 'c2c_silent_publish_default' with silent publish state default.
 	 */
 	public static function add_ui() {
 		global $post;
