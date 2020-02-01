@@ -1,3 +1,6 @@
+.components-panel__row .silent-published {
+	font-style: italic;
+}
 .components-panel__row .silent-publish-disabled {
 	color: #bbb;
 }
