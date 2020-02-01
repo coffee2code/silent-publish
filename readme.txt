@@ -37,8 +37,12 @@ Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/silent-publish/) | [P
 
 == Screenshots ==
 
-1. A screenshot of the 'Publish' sidebar box on the Add New Post admin page (for versions of WordPress older than 5.0, or later if the new block editor aka Gutenberg is disabled). The 'Publish silently?' checkbox is integrated alongside the existing fields.
-2. A screenshot of the 'Silent publish?' checkbox displaying help text when hovering over the checkbox.
+1. The "Status & Visibility" panel when creating a new post (when using the block editor) that shows the 'Silent publish?' checkbox used to enable silent publish. If you plan to make use of it, be sure to have it checked before publishing the post.
+2. The "Status & Visibility" panel when editing a post that was published with silent publish enabled. The message "This post was silently published." is shown to indicate the post was silently published. If the post has been published without silent publish enabled, no text or checkbox would be shown in its place.
+3. The 'Publish' sidebar box on the Add New Post admin page (for versions of WordPress older than 5.0, or later if the new block editor aka Gutenberg is disabled). The 'Publish silently?' checkbox is integrated alongside the existing fields.
+4. The 'Publish' sidebar box when editing a post (under the classic editor) that was published with silent publish enabled. The message "This post was silently published." is shown to indicate the post was silently published. If the post has been published without silent publish enabled, no text or checkbox would be shown in its place.
+5. The 'Silent publish?' checkbox displaying help text when hovering over the checkbox.
+6. The admin post listing of posts showing the mute icon in the 'Date' column to indicate the post was (or will be) silently published.
 
 
 == Frequently Asked Questions ==

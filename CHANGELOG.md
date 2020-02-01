@@ -16,6 +16,7 @@
 * Change: Split paragraph in README.md's "Support" section into two
 * Change: Add link to CHANGELOG.md in README.md
 * Change: Update copyright date (2020)
+* New: Add 4 new screenshots (including for block editor UI) and update existing 2 screenshots
 
 ## 2.7 _(2019-03-12)_
 * New: Add support for new block editor (aka Gutenberg)
