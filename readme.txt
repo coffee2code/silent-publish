@@ -65,7 +65,7 @@ If the "Silent publish?" checkbox had not been checked at the time a post is pub
 
 = Can I change my mind after I silently publish a post to post it again without it being silent? =
 
-Yes. You must first unpublish the post (by making it a draft or pending). Then uncheck the "Publish silently?" checkbox and republish the post.
+Yes. You must first unpublish the post (by making it a draft or pending). Then uncheck the "Publish silently?" checkbox and republish the post. However, it's a bit moot at that point; once a post has been published without having silent publish enabled for it then pingbacks, trackbacks, and other notifications about the post being published have already been sent.
 
 = Does this prevent email notifications from going out to people subscribed to receive a notice about new posts to the site? =
 
