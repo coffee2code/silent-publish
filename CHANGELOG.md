@@ -13,6 +13,7 @@
 * Change: Remove unnecessary inline CSS that lowered opacity for disabled field
 * Unit tests:
     * New: Add helper function `create_post()`
+    * Change: Explicitly test priority value of hooks instead of simply that they're set
     * Change: Refactor some unit tests
 * Change: Note compatibility through WP 5.3+
 * Change: Use full URL for readme.txt link to full changelog

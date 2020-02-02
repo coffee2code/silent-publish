@@ -114,19 +114,19 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	}
 
 	public function test_plugins_loaded_action_triggers_do_init() {
-		$this->assertNotFalse( has_filter( 'plugins_loaded', array( 'c2c_SilentPublish', 'init' ) ) );
+		$this->assertEquals( 10, has_filter( 'plugins_loaded', array( 'c2c_SilentPublish', 'init' ) ) );
 	}
 
 	public function test_post_submitbox_misc_action_triggers_add_ui() {
-		$this->assertNotFalse( has_action( 'post_submitbox_misc_actions', array( 'c2c_SilentPublish', 'add_ui' ) ) );
+		$this->assertEquals( 10, has_action( 'post_submitbox_misc_actions', array( 'c2c_SilentPublish', 'add_ui' ) ) );
 	}
 
 	public function test_save_post_filter_triggers_save_silent_publish_status() {
-		$this->assertNotFalse( has_filter( 'save_post', array( 'c2c_SilentPublish', 'save_silent_publish_status' ), 2, 3 ) );
+		$this->assertEquals( 2, has_filter( 'save_post', array( 'c2c_SilentPublish', 'save_silent_publish_status' ) ) );
 	}
 
 	public function test_publish_post_action_triggers_publish_post() {
-		$this->assertNotFalse( has_action( 'publish_post', array( 'c2c_SilentPublish', 'publish_post' ), 1, 1 ) );
+		$this->assertEquals( 1, has_action( 'publish_post', array( 'c2c_SilentPublish', 'publish_post' ) ) );
 	}
 
 	/*
