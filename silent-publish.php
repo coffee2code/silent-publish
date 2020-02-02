@@ -358,6 +358,18 @@ class c2c_SilentPublish {
 			return;
 		}
 
+		self::output_field( $silent_publish_on, $disable );
+	}
+
+	/**
+	 * Outputs the markup for the input field(s).
+	 *
+	 * @since 2.8
+	 *
+	 * @param bool $silent_publish Should the checkbox be checked? Default false.
+	 * @param bool $disable        Should the field be disabled? Default false.
+	 */
+	public static function output_field( $silent_publish = false, $disable = false ) {
 		printf(
 			'<div class="misc-pub-section"><label class="selectit c2c-silent-publish" for="%1$s" title="%2$s"%3$s>' . "\n",
 			esc_attr( self::$field ),
@@ -373,7 +385,7 @@ class c2c_SilentPublish {
 			'<input id="%1$s" type="checkbox" %2$s %3$s value="1" name="%4$s" />' . "\n",
 			esc_attr( self::$field ),
 			disabled( $disable, true, false ),
-			checked( $silent_publish_on, true, false ),
+			checked( $silent_publish, true, false ),
 			esc_attr( self::$field )
 		);
 

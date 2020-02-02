@@ -8,6 +8,7 @@
     * New: Add `get_post_types()` for retrieving post types
     * New: Add filter `c2c_silent_publish_post_types` to filter post types
 * Change: Don't do anything for posts of a post type that is not public
+* Change: Extract markup handling from `add_ui()` into new `output_field()`
 * Unit tests:
     * New: Add helper function `create_post()`
     * Change: Refactor some unit tests

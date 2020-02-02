@@ -349,6 +349,69 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	}
 
 	/*
+	 * output_field()
+	 */
+
+	public function test_output_field_default() {
+		$this->expectOutputRegex(
+			'~' . preg_quote( '<input id="silent_publish" type="checkbox"   value="1" name="silent_publish" />' ) . '~',
+			c2c_SilentPublish::output_field()
+		);
+	}
+
+	public function test_output_field_silent_publish_and_disabled() {
+		$this->expectOutputRegex(
+			'~' . preg_quote( '<input id="silent_publish" type="checkbox"  disabled=\'disabled\'  checked=\'checked\' value="1" name="silent_publish" />' ) . '~',
+			c2c_SilentPublish::output_field( true, true )
+		);
+	}
+
+	public function test_output_field_silent_publish_and_enabled() {
+		$this->expectOutputRegex(
+			'~' . preg_quote( '<input id="silent_publish" type="checkbox"   checked=\'checked\' value="1" name="silent_publish" />' ) . '~',
+			c2c_SilentPublish::output_field( true, false )
+		);
+	}
+
+	public function test_output_field_no_silent_publish_and_disabled() {
+		$this->expectOutputRegex(
+			'~' . preg_quote( '<input id="silent_publish" type="checkbox"  disabled=\'disabled\'  value="1" name="silent_publish" />' ) . '~',
+			c2c_SilentPublish::output_field( false, true )
+		);
+	}
+
+	public function test_output_field_no_silent_publish_and_enabled() {
+		$this->expectOutputRegex(
+			'~' . preg_quote( '<input id="silent_publish" type="checkbox"   value="1" name="silent_publish" />' ) . '~',
+			c2c_SilentPublish::output_field( false, false )
+		);
+	}
+
+	public function test_output_field_has_nonce() {
+		$this->expectOutputRegex(
+			'~' . preg_quote( '<input type="hidden" name="_silent_publish_nonce" value="' ) . '[a-zA-Z0-9]+' . preg_quote( '" />' ) . '~',
+			c2c_SilentPublish::output_field( false, false )
+		);
+	}
+
+	public function test_output_field_overall_markup() {
+		$this->expectOutputRegex(
+			'~' . preg_quote( sprintf(
+				'<div class="misc-pub-section"><label class="selectit c2c-silent-publish" for="silent_publish" title="%s">' . "\n",
+				'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.',
+				) )
+			// Nonce
+			. '\<input type\="hidden".+/\>'
+			// Input field
+			. '\<input id\=".+/\>' . "\n"
+			// Label text and end tags
+			. preg_quote( 'Silent publish?</label></div>' . "\n" )
+			. '~',
+			c2c_SilentPublish::output_field()
+		);
+	}
+
+	/*
 	 * is_silent_publish_on_by_default()
 	 */
 
