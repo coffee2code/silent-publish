@@ -411,6 +411,13 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		);
 	}
 
+	public function test_output_field_has_disabled_class_when_disabled() {
+		$this->expectOutputRegex(
+			'~' . preg_quote( '<div class="misc-pub-section"><label class="selectit c2c-silent-publish c2c-silent-published" for="silent_publish"' ) . '~',
+			c2c_SilentPublish::output_field( false, true )
+		);
+	}
+
 	/*
 	 * is_silent_publish_on_by_default()
 	 */
