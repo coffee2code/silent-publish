@@ -158,10 +158,10 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 			$p[] = 'private';
 			$p = array_flip( $p );
 			unset( $p[ 'book' ] );
-			return array_flip( $p );
+			return array_values( array_flip( $p ) );
 		} );
 
-		$this->test_get_post_types( array_keys( 'private' ) );
+		$this->test_get_post_types( array( 'private' ) );
 	}
 
 	public function test_non_silently_published_post_publishes_without_silencing() {
