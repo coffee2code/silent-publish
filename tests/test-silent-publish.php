@@ -129,6 +129,14 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assertEquals( 1, has_action( 'publish_post', array( 'c2c_SilentPublish', 'publish_post' ) ) );
 	}
 
+	public function test_quick_edit_custom_box_triggers_add_to_quick_edit() {
+		$this->assertEquals( 10, has_action( 'quick_edit_custom_box', array( 'c2c_SilentPublish', 'add_to_quick_edit' ) ) );
+	}
+
+	public function test_admin_enqueue_scripts_triggers_admin_enqueue_scripts() {
+		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', array( 'c2c_SilentPublish', 'admin_enqueue_scripts' ) ) );
+	}
+
 	/*
 	 * get_post_types()
 	 */
@@ -475,6 +483,37 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 			'~^' . $time . ' <span class="silent_publish dashicons dashicons-controls-volumeoff" title="Post was silently published."></span>' . '$~',
 			c2c_SilentPublish::add_icon_to_post_date_column( $time, $post, 'Date', 'list' )
 		);
+	}
+
+	/*
+	 * admin_enqueue_scripts()
+	 */
+
+	public function test_admin_enqueue_scripts_not_enqueued_by_default() {
+		$this->assertFalse( wp_script_is( $this->field, 'enqueued' ) );
+	}
+
+	public function test_admin_enqueue_scripts_not_enqueued_for_wrong_admin_page() {
+		c2c_SilentPublish::admin_enqueue_scripts( 'plugins.php' );
+		$this->assertFalse( wp_script_is( $this->field, 'enqueued' ) );
+	}
+
+	public function test_admin_enqueue_scripts_enqueued_on_proper_admin_page() {
+		c2c_SilentPublish::admin_enqueue_scripts( 'edit.php' );
+		$this->assertTrue( wp_script_is( $this->field, 'enqueued' ) );
+	}
+
+	/*
+	 * add_to_quick_edit()
+	 */
+
+	public function test_add_to_quick_edit_outputs_on_invocation() {
+		$this->expectOutputRegex( '/^\<div class="misc-pub-section"\>.+$/m', c2c_SilentPublish::add_to_quick_edit( 'author', 'post' ) );
+	}
+
+	public function test_add_to_quick_edit_does_not_output_on_subsequent_invocation() {
+		$GLOBALS['wp_actions'][ 'quick_edit_custom_box' ] = 2;
+		$this->expectOutputRegex( '/^$/m', c2c_SilentPublish::add_to_quick_edit( 'author', 'post' ) );
 	}
 
 	/*

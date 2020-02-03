@@ -90,6 +90,8 @@ class c2c_SilentPublish {
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'enqueue_block_editor_assets' )   );
 		add_filter( 'post_date_column_time',       array( __CLASS__, 'add_icon_to_post_date_column' ), 10, 4 );
 		add_action( 'init',                        array( __CLASS__, 'register_meta' ) );
+		add_action( 'quick_edit_custom_box',       array( __CLASS__, 'add_to_quick_edit' ), 10, 2 );
+		add_action( 'admin_enqueue_scripts',       array( __CLASS__, 'admin_enqueue_scripts' ) );
 	}
 
 	/**
@@ -391,6 +393,37 @@ class c2c_SilentPublish {
 
 		_e( 'Silent publish?', 'silent-publish' );
 		echo '</label></div>' . "\n";
+	}
+
+	/**
+	 * Enqueues the admin JS.
+	 *
+	 * @since 2.8
+	 *
+	 * @param string $hook_name The hook (aka page) name.
+	 */
+	public static function admin_enqueue_scripts( $hook_name ) {
+		if ( 'edit.php' !== $hook_name ) {
+			return;
+		}
+
+		wp_enqueue_script( self::$field, plugins_url( 'assets/js/quick-edit.js', __FILE__ ), array( 'jquery' ), self::version(), true );
+	}
+
+	/**
+	 * Adds the checkbox to the quick edit panel.
+	 *
+	 * @since 2.8
+	 *
+	 * @param string $column_name Name of the column being output to quick edit.
+	 * @param string $post_type   The post type of the post.
+	 */
+	public static function add_to_quick_edit( $column_name, $post_type ) {
+		if ( did_action( 'quick_edit_custom_box' ) > 1 ) {
+			return;
+		}
+
+		self::output_field();
 	}
 
 	/**
