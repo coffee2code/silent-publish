@@ -369,12 +369,12 @@ class c2c_SilentPublish {
 
 		$disable = ( 'publish' == $post->post_status );
 
-		$silent_publish_on = self::is_silent_publish_on_by_default() || self::is_silent_published();
+		$silent_published = self::is_silent_published();
 
 		// Bail if post is already published.
 		if ( $disable ) {
 			// Output a message only if post was silently published.
-			if ( $silent_publish_on ) {
+			if ( $silent_published ) {
 				printf(
 					'<div class="misc-pub-section"><em>%s</em></div>',
 					__( 'This post was silently published.', 'silent-publish' )
@@ -382,6 +382,8 @@ class c2c_SilentPublish {
 			}
 			return;
 		}
+
+		$silent_publish_on = self::is_silent_publish_on_by_default() || $silent_published;
 
 		self::output_field( $silent_publish_on, $disable );
 	}

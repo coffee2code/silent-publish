@@ -7,6 +7,7 @@
     * New: Add `admin_enqueue_scripts()`
 * New: Add `is_silent_published()` to determine if silent publish is activated for a post
 * Change: Alter `is_silent_publish_on_by_default()` to solely reflect the default state of silent publish for new posts
+* Fix: Don't output field as if post was silently published if it wasn't but the field default was filtered to be true
 * New: Add TODO.md and move existing TODO list from top of main plugin file into it (and add more items to the list)
 * Change: Show message instead of disabled checkbox when editing silently published post and show nothing for published posts that weren't silently published
 * Change: Enable plugin functionality for all public post types by default
