@@ -170,7 +170,7 @@ class c2c_SilentPublish {
 
 		// If post is already published and was not published silently, no need to
 		// show empty checkbox.
-		if ( ! $post || ( 'publish' === $post->post_status && ! self::is_silent_publish_on_by_default() ) ) {
+		if ( ! $post || ( 'publish' === $post->post_status && ! self::is_silent_published() ) ) {
 			return;
 		}
 
@@ -255,6 +255,10 @@ class c2c_SilentPublish {
 	/**
 	 * Determines if silent publish should be enabled for posts by default.
 	 *
+	 * Note: This only indicates if the silent publish checkbox should be
+	 * checked by default. It does not reflect whether the post has actually
+	 * been, or is set to be, silent published.
+	 *
 	 * @since 2.7
 	 * @uses apply_filters() Calls 'c2c_silent_publish_default' with silent publish state default.
 	 *
@@ -275,15 +279,7 @@ class c2c_SilentPublish {
 		 *                         checked by default, otherwise false. Default false.
 		 * @param WP_Post $post    The post.
 		 */
-		if ( (bool) apply_filters( 'c2c_silent_publish_default', false, $post ) ) {
-			$silent_publish_on = true;
-		} elseif ( $post ) {
-			$silent_publish_on = (bool) get_post_meta( $post->ID, self::get_meta_key_name(), true );
-		} else {
-			$silent_publish_on = false;
-		}
-
-		return $silent_publish_on;
+		return (bool) apply_filters( 'c2c_silent_publish_default', false, $post );
 	}
 
 	/**
@@ -373,7 +369,7 @@ class c2c_SilentPublish {
 
 		$disable = ( 'publish' == $post->post_status );
 
-		$silent_publish_on = self::is_silent_publish_on_by_default();
+		$silent_publish_on = self::is_silent_publish_on_by_default() || self::is_silent_published();
 
 		// Bail if post is already published.
 		if ( $disable ) {
