@@ -5,6 +5,7 @@
 * New: Allow the "Silent Publish?" value to be set and seen in the quick edit pane
     * New: Add `add_to_quick_edit()`
     * New: Add `admin_enqueue_scripts()`
+* New: Add `is_silent_published()` to determine if silent publish is activated for a post
 * New: Add TODO.md and move existing TODO list from top of main plugin file into it (and add more items to the list)
 * Change: Show message instead of disabled checkbox when editing silently published post and show nothing for published posts that weren't silently published
 * Change: Enable plugin functionality for all public post types by default

@@ -287,6 +287,33 @@ class c2c_SilentPublish {
 	}
 
 	/**
+	 * Determines if the post was, or will be, silent published.
+	 *
+	 * Note: This does not take into account whether the post is actually
+	 * published or not, just whether it has been saved with silent
+	 * publish checked.
+	 *
+	 * @since 2.9
+	 *
+	 * @param WP_Post|int|null The ppst object, post ID, or null (to mean the
+	 *                         current post.
+	 * @return bool True if post is, or will be, silent published, false otherwise.
+	 */
+	public static function is_silent_published( $post = null ) {
+		if ( is_null( $post ) ) {
+			global $post;
+		} else {
+			$post = get_post ( $post );
+		}
+
+		if ( ! $post ) {
+			return false;
+		}
+
+		return (bool) get_post_meta( $post->ID, self::get_meta_key_name(), true );
+	}
+
+	/**
 	 * Returns the name of the meta key.
 	 *
 	 * @since 2.6

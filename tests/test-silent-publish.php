@@ -441,6 +441,74 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	}
 
 	/*
+	 * is_silent_published()
+	 */
+
+	 public function test_is_silent_published() {
+		global $post;
+		$post_id = $this->factory->post->create();
+		$post = get_post( $post_id );
+
+		$this->assertFalse( c2c_SilentPublish::is_silent_published() );
+	 }
+
+	public function test_is_silent_published_for_silent_published_post() {
+		global $post;
+		$post_id = $this->factory->post->create();
+		update_post_meta( $post_id, $this->meta_key, '1' );
+		$post = get_post( $post_id );
+
+		$this->assertTrue( c2c_SilentPublish::is_silent_published() );
+	}
+
+	public function test_is_silent_published_unaffected_by_silent_publish_default() {
+		$this->test_filter_c2c_silent_publish_default();
+
+		global $post;
+		$post_id = $this->factory->post->create();
+		$post = get_post( $post_id );
+
+		$this->assertFalse( c2c_SilentPublish::is_silent_published() );
+	}
+
+	public function test_is_silent_published_with_post_id_as_arg() {
+		// Create a global post that is silent published.
+		$this->test_is_silent_published_for_silent_published_post();
+
+		$post_id = $this->factory->post->create();
+
+		$this->assertFalse( c2c_SilentPublish::is_silent_published( $post_id ) );
+	}
+
+	public function test_is_silent_published_with_post_id_as_arg_and_global_post_not_silent_published() {
+		// Create a global post that is not silent published.
+		$this->test_is_silent_published();
+
+		$post_id = $this->factory->post->create();
+		update_post_meta( $post_id, $this->meta_key, '1' );
+		$post = get_post( $post_id );
+
+		$this->assertTrue( c2c_SilentPublish::is_silent_published( $post ) );
+	}
+
+	public function test_is_silent_published_with_post_as_arg() {
+		// Create a global post that is silent published.
+		$this->test_is_silent_published_for_silent_published_post();
+
+		$post_id = $this->factory->post->create();
+		$post = get_post( $post_id );
+
+		$this->assertFalse( c2c_SilentPublish::is_silent_published( $post ) );
+	}
+
+	public function test_is_silent_published_with_invalid_arg() {
+		// Create a global post that is silent published.
+		$this->test_is_silent_published_for_silent_published_post();
+
+		$this->assertFalse( c2c_SilentPublish::is_silent_published( 'gibberish' ) );
+	}
+
+	/*
 	 * add_icon_to_post_date_column()
 	 */
 
