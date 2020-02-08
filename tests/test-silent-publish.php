@@ -328,6 +328,18 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->assert_form_output( $output, true, false );
 	}
 
+	public function test_add_ui_when_post_not_published_but_silent_publish_enabled() {
+		$this->create_post( 'draft', true );
+
+		ob_start();
+		c2c_SilentPublish::add_ui();
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertNotEmpty( $output );
+		$this->assert_form_output( $output, true, false );
+	}
+
 	public function test_add_ui_when_post_was_silently_published() {
 		$this->create_post( 'publish', true );
 
@@ -375,10 +387,17 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		);
 	}
 
-	public function test_output_field_silent_publish_and_disabled() {
+	public function test_output_field_silent_publish_and_disable_unpublished() {
 		$this->expectOutputRegex(
-			'~' . preg_quote( '<input id="silent_publish" type="checkbox"  disabled=\'disabled\'  checked=\'checked\' value="1" name="silent_publish" />' ) . '~',
-			c2c_SilentPublish::output_field( array( 'silent_publish' => true, 'disable' => true ) )
+			'~^$~',
+			c2c_SilentPublish::output_field( array( 'silent_publish' => true, 'disable' => true, 'published' => false ) )
+		);
+	}
+
+	public function test_output_field_silent_publish_and_disable_published() {
+		$this->expectOutputRegex(
+			'~' . preg_quote( '<div class="misc-pub-section"><em>This post was silently published.</em></div>' ) . '~',
+			c2c_SilentPublish::output_field( array( 'silent_publish' => true, 'disable' => true, 'published' => true ) )
 		);
 	}
 
@@ -389,10 +408,17 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		);
 	}
 
-	public function test_output_field_no_silent_publish_and_disabled() {
+	public function test_output_field_no_silent_publish_and_disabled_unpublished() {
 		$this->expectOutputRegex(
-			'~' . preg_quote( '<input id="silent_publish" type="checkbox"  disabled=\'disabled\'  value="1" name="silent_publish" />' ) . '~',
+			'~^$~',
 			c2c_SilentPublish::output_field( array( 'silent_publish' => false, 'disable' => true ) )
+		);
+	}
+
+	public function test_output_field_no_silent_publish_and_disabled_published() {
+		$this->expectOutputRegex(
+			'~' . preg_quote( '<div class="misc-pub-section"><em>This post was silently published.</em></div>' ) . '~',
+			c2c_SilentPublish::output_field( array( 'silent_publish' => false, 'disable' => true, 'published' => true ) )
 		);
 	}
 
@@ -427,12 +453,13 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		);
 	}
 
-	public function test_output_field_has_disabled_class_when_disabled() {
-		$this->expectOutputRegex(
-			'~' . preg_quote( '<div class="misc-pub-section"><label class="selectit c2c-silent-publish c2c-silent-published" for="silent_publish"' ) . '~',
-			c2c_SilentPublish::output_field( array( 'silent_publish' => false, 'disable' => true ) )
-		);
-	}
+	// Currently disabled checkbox cannot be output.
+	//public function test_output_field_has_disabled_class_when_disabled() {
+	//	$this->expectOutputRegex(
+	//		'~' . preg_quote( '<div class="misc-pub-section"><label class="selectit c2c-silent-publish c2c-silent-published" for="silent_publish"' ) . '~',
+	//		c2c_SilentPublish::output_field( array( 'silent_publish' => false, 'disable' => true ) )
+	//	);
+	//}
 
 	/*
 	 * is_silent_publish_on_by_default()

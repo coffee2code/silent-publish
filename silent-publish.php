@@ -371,21 +371,13 @@ class c2c_SilentPublish {
 
 		$silent_published = self::is_silent_published();
 
-		// Bail if post is already published.
-		if ( $disable ) {
-			// Output a message only if post was silently published.
-			if ( $silent_published ) {
-				printf(
-					'<div class="misc-pub-section"><em>%s</em></div>',
-					__( 'This post was silently published.', 'silent-publish' )
-				);
-			}
-			return;
-		}
-
 		$silent_publish_on = self::is_silent_publish_on_by_default() || $silent_published;
 
-		self::output_field( array( 'silent_publish' => $silent_publish_on, 'disable' => $disable ) );
+		self::output_field( array(
+			'disable'        => $disable,
+			'published'      => $silent_published,
+			'silent_publish' => $silent_publish_on,
+		) );
 	}
 
 	/**
@@ -403,15 +395,44 @@ class c2c_SilentPublish {
 	 *                                the field if disabled may not simply be a
 	 *                                disabled checkbox if post is published.
 	 *                                Default false.
+	 *     @type bool $published      Is the post published? If true, this
+	 *                                influences if the a disabled checkbox
+	 *                                instead shows a message. Default false.
+	 *     @type bool $show_all       Show the silent published message *and*
+	 *                                the input fields? When used for a specific
+	 *                                post this is undesired, but is useful for
+	 *                                the quick edit panel so that both are
+	 *                                available to be reused. Default false.
 	 * }
 	 */
 	public static function output_field( $args = array() ) {
 		$defaults = array(
-			'silent_publish' => false,
 			'disable'        => false,
+			'published'      => false,
+			'show_all'       => false,
+			'silent_publish' => false,
 		);
 
 		$args = wp_parse_args( (array) $args, $defaults );
+
+		// Show a message instead of a disabled checkbox when showing all or if
+		// post was silently published.
+		if ( $args['show_all'] || $args['disable'] ) {
+			if ( $args['show_all'] || ( $args['disable'] && $args['published'] ) ) {
+				$style = $args['show_all'] ? ' style="display:none;"' : '';
+
+				printf(
+					'<div class="misc-pub-section"%s><em>%s</em></div>',
+					$style,
+					__( 'This post was silently published.', 'silent-publish' )
+				);
+			}
+
+			// Bail unless intentionally showing both fields.
+			if ( ! $args['show_all'] ) {
+				return;
+			}
+		}
 
 		printf(
 			'<div class="misc-pub-section"><label class="selectit c2c-silent-publish%s" for="%s" title="%s">' . "\n",
