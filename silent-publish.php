@@ -385,7 +385,7 @@ class c2c_SilentPublish {
 
 		$silent_publish_on = self::is_silent_publish_on_by_default() || $silent_published;
 
-		self::output_field( $silent_publish_on, $disable );
+		self::output_field( array( 'silent_publish' => $silent_publish_on, 'disable' => $disable ) );
 	}
 
 	/**
@@ -393,13 +393,29 @@ class c2c_SilentPublish {
 	 *
 	 * @since 2.8
 	 *
-	 * @param bool $silent_publish Should the checkbox be checked? Default false.
-	 * @param bool $disable        Should the field be disabled? Default false.
+	 * @param array $args {
+	 *     Array of settings.
+	 *
+	 *     @type bool $silent_publish Should the silent publish checkbox be
+	 *                                checked? Defaultfalse.
+	 *     @type bool $disable        Should the silent publish field be
+	 *                                disabled? Note that the actual display of
+	 *                                the field if disabled may not simply be a
+	 *                                disabled checkbox if post is published.
+	 *                                Default false.
+	 * }
 	 */
-	public static function output_field( $silent_publish = false, $disable = false ) {
+	public static function output_field( $args = array() ) {
+		$defaults = array(
+			'silent_publish' => false,
+			'disable'        => false,
+		);
+
+		$args = wp_parse_args( (array) $args, $defaults );
+
 		printf(
 			'<div class="misc-pub-section"><label class="selectit c2c-silent-publish%s" for="%s" title="%s">' . "\n",
-			$disable ? ' c2c-silent-published' : '',
+			$args['disable'] ? ' c2c-silent-published' : '',
 			esc_attr( self::$field ),
 			esc_attr__( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' ),
 		);
@@ -411,8 +427,8 @@ class c2c_SilentPublish {
 		printf(
 			'<input id="%1$s" type="checkbox" %2$s %3$s value="1" name="%4$s" />' . "\n",
 			esc_attr( self::$field ),
-			disabled( $disable, true, false ),
-			checked( $silent_publish, true, false ),
+			disabled( $args['disable'], true, false ),
+			checked( $args['silent_publish'], true, false ),
 			esc_attr( self::$field )
 		);
 

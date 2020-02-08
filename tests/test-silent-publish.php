@@ -378,35 +378,35 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	public function test_output_field_silent_publish_and_disabled() {
 		$this->expectOutputRegex(
 			'~' . preg_quote( '<input id="silent_publish" type="checkbox"  disabled=\'disabled\'  checked=\'checked\' value="1" name="silent_publish" />' ) . '~',
-			c2c_SilentPublish::output_field( true, true )
+			c2c_SilentPublish::output_field( array( 'silent_publish' => true, 'disable' => true ) )
 		);
 	}
 
 	public function test_output_field_silent_publish_and_enabled() {
 		$this->expectOutputRegex(
 			'~' . preg_quote( '<input id="silent_publish" type="checkbox"   checked=\'checked\' value="1" name="silent_publish" />' ) . '~',
-			c2c_SilentPublish::output_field( true, false )
+			c2c_SilentPublish::output_field( array( 'silent_publish' => true, 'disable' => false ) )
 		);
 	}
 
 	public function test_output_field_no_silent_publish_and_disabled() {
 		$this->expectOutputRegex(
 			'~' . preg_quote( '<input id="silent_publish" type="checkbox"  disabled=\'disabled\'  value="1" name="silent_publish" />' ) . '~',
-			c2c_SilentPublish::output_field( false, true )
+			c2c_SilentPublish::output_field( array( 'silent_publish' => false, 'disable' => true ) )
 		);
 	}
 
 	public function test_output_field_no_silent_publish_and_enabled() {
 		$this->expectOutputRegex(
 			'~' . preg_quote( '<input id="silent_publish" type="checkbox"   value="1" name="silent_publish" />' ) . '~',
-			c2c_SilentPublish::output_field( false, false )
+			c2c_SilentPublish::output_field( array( 'silent_publish' => false, 'disable' => false ) )
 		);
 	}
 
 	public function test_output_field_has_nonce() {
 		$this->expectOutputRegex(
 			'~' . preg_quote( '<input type="hidden" name="_silent_publish_nonce" value="' ) . '[a-zA-Z0-9]+' . preg_quote( '" />' ) . '~',
-			c2c_SilentPublish::output_field( false, false )
+			c2c_SilentPublish::output_field( array( 'silent_publish' => false, 'disable' => false ) )
 		);
 	}
 
@@ -430,7 +430,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	public function test_output_field_has_disabled_class_when_disabled() {
 		$this->expectOutputRegex(
 			'~' . preg_quote( '<div class="misc-pub-section"><label class="selectit c2c-silent-publish c2c-silent-published" for="silent_publish"' ) . '~',
-			c2c_SilentPublish::output_field( false, true )
+			c2c_SilentPublish::output_field( array( 'silent_publish' => false, 'disable' => true ) )
 		);
 	}
 
