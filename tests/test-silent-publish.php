@@ -344,7 +344,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->create_post( 'publish', true );
 
 		$this->expectOutputRegex(
-			'~' . preg_quote( '<div class="misc-pub-section"><em>This post was silently published.</em></div>' ) . '~',
+			'~^' . preg_quote( '<div class="misc-pub-section"><em>This post was silently published.</em></div>' ) . '$~',
 			c2c_SilentPublish::add_ui()
 		);
 	}
@@ -381,10 +381,14 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	 */
 
 	public function test_output_field_default() {
-		$this->expectOutputRegex(
-			'~' . preg_quote( '<input id="silent_publish" type="checkbox"   value="1" name="silent_publish" />' ) . '~',
-			c2c_SilentPublish::output_field()
-		);
+		ob_start();
+		c2c_SilentPublish::output_field();
+		$output = ob_get_contents();
+		ob_end_clean();
+
+		$this->assertNotEmpty( $output );
+		$this->assert_form_output( $output, false, false );
+
 	}
 
 	public function test_output_field_silent_publish_and_disable_unpublished() {
@@ -396,7 +400,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 	public function test_output_field_silent_publish_and_disable_published() {
 		$this->expectOutputRegex(
-			'~' . preg_quote( '<div class="misc-pub-section"><em>This post was silently published.</em></div>' ) . '~',
+			'~^' . preg_quote( '<div class="misc-pub-section"><em>This post was silently published.</em></div>' ) . '$~',
 			c2c_SilentPublish::output_field( array( 'silent_publish' => true, 'disable' => true, 'published' => true ) )
 		);
 	}
@@ -417,7 +421,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 	public function test_output_field_no_silent_publish_and_disabled_published() {
 		$this->expectOutputRegex(
-			'~' . preg_quote( '<div class="misc-pub-section"><em>This post was silently published.</em></div>' ) . '~',
+			'~^' . preg_quote( '<div class="misc-pub-section"><em>This post was silently published.</em></div>' ) . '$~',
 			c2c_SilentPublish::output_field( array( 'silent_publish' => false, 'disable' => true, 'published' => true ) )
 		);
 	}
