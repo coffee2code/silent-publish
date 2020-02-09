@@ -10,5 +10,6 @@ The following list comprises ideas, suggestions, and known issues, all of which 
 * Gutenberg: Add publish confirmation panel widget to indicate if the post will be published silently or not.
 * Get column and field names used within assets/js/quick-edit.js via localized variables and not hardcoded
 * Add more unit tests
+* Instead of keying off whether post is published or not, should it key off more specifically on post being either a draft or pending (in case there are other published-like post statuses)?
 
 Feel free to make your own suggestions or champion for something already on the list (via the [plugin's support forum on WordPress.org](https://wordpress.org/support/plugin/silent-publish/) or on [GitHub](https://github.com/coffee2code/silent-publish/) as an issue or PR).
