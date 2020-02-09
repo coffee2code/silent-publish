@@ -236,11 +236,11 @@ class c2c_SilentPublish {
 	 * @param WP_Post|int|string The ppst object, post ID, or post type name.
 	 * @return bool True if silent publishing is enabled, false otherwise.
 	 */
-	public static function is_silent_publish_enabled( $post ) {
-		if ( is_a( $post,  'WP_Post' ) || is_int( $post ) ) {
-			$post_type = get_post_type( $post );
-		} else {
+	public static function is_silent_publish_enabled( $post = null ) {
+		if ( is_string( $post ) ) {
 			$post_type = $post;
+		} else {
+			$post_type = get_post_type( $post );
 		}
 
 		if ( ! $post_type ) {
