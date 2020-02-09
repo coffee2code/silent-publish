@@ -344,7 +344,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->create_post( 'publish', true );
 
 		$this->expectOutputRegex(
-			'~^' . preg_quote( '<div class="misc-pub-section"><em>This post was silently published.</em></div>' ) . '$~',
+			'~^' . preg_quote( '<div class="misc-pub-section c2c-silent-published"><em>This post was silently published.</em></div>' ) . '$~',
 			c2c_SilentPublish::add_ui()
 		);
 	}
@@ -400,7 +400,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 	public function test_output_field_silent_publish_and_disable_published() {
 		$this->expectOutputRegex(
-			'~^' . preg_quote( '<div class="misc-pub-section"><em>This post was silently published.</em></div>' ) . '$~',
+			'~^' . preg_quote( '<div class="misc-pub-section c2c-silent-published"><em>This post was silently published.</em></div>' ) . '$~',
 			c2c_SilentPublish::output_field( array( 'silent_publish' => true, 'disable' => true, 'published' => true ) )
 		);
 	}
@@ -421,7 +421,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 
 	public function test_output_field_no_silent_publish_and_disabled_published() {
 		$this->expectOutputRegex(
-			'~^' . preg_quote( '<div class="misc-pub-section"><em>This post was silently published.</em></div>' ) . '$~',
+			'~^' . preg_quote( '<div class="misc-pub-section c2c-silent-published"><em>This post was silently published.</em></div>' ) . '$~',
 			c2c_SilentPublish::output_field( array( 'silent_publish' => false, 'disable' => true, 'published' => true ) )
 		);
 	}
@@ -624,7 +624,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 	 */
 
 	public function test_add_to_quick_edit_outputs_on_invocation() {
-		$this->expectOutputRegex( '/^\<div class="misc-pub-section"\>.+$/m', c2c_SilentPublish::add_to_quick_edit( 'author', 'post' ) );
+		$this->expectOutputRegex( '/^\<div class="misc-pub-section c2c-silent-published".+$/m', c2c_SilentPublish::add_to_quick_edit( 'author', 'post' ) );
 	}
 
 	public function test_add_to_quick_edit_does_not_output_on_subsequent_invocation() {

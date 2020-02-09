@@ -37,11 +37,20 @@
 			$( ':input[name="silent_publish"]', $edit_row ).prop( 'disabled', $disabled );
 
 			// Determine if checkbox should be visible.
-			var $invisible = ( $post_status === 'publish' ) && ! $silent_publish;
-			if ( $invisible ) {
+			var $is_published = $post_status === 'publish';
+
+			if ( $is_published ) {
 				$( '.c2c-silent-publish', $edit_row ).hide();
 			} else {
 				$( '.c2c-silent-publish', $edit_row ).show();
+			}
+
+			// Determine if message indicating post was silent published should
+			// be shown.
+			if ( $is_published && $silent_publish ) {
+				$( '.c2c-silent-published', $edit_row ).show();
+			} else {
+				$( '.c2c-silent-published', $edit_row ).hide();
 			}
 		}
 	};

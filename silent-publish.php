@@ -422,7 +422,7 @@ class c2c_SilentPublish {
 				$style = $args['show_all'] ? ' style="display:none;"' : '';
 
 				printf(
-					'<div class="misc-pub-section"%s><em>%s</em></div>',
+					'<div class="misc-pub-section c2c-silent-published"%s><em>%s</em></div>',
 					$style,
 					__( 'This post was silently published.', 'silent-publish' )
 				);
@@ -436,7 +436,7 @@ class c2c_SilentPublish {
 
 		printf(
 			'<div class="misc-pub-section"><label class="selectit c2c-silent-publish%s" for="%s" title="%s">' . "\n",
-			$args['disable'] ? ' c2c-silent-published' : '',
+			$args['disable'] ? ' c2c-silent-published-disabled' : '',
 			esc_attr( self::$field ),
 			esc_attr__( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' ),
 		);
@@ -485,7 +485,7 @@ class c2c_SilentPublish {
 			return;
 		}
 
-		self::output_field();
+		self::output_field( array( 'show_all' => true ) );
 	}
 
 	/**
