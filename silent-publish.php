@@ -357,22 +357,16 @@ class c2c_SilentPublish {
 	 * @since 2.0
 	 */
 	public static function add_ui() {
-		global $post;
-
-		if ( ! self::is_silent_publish_enabled( $post ) ) {
+		if ( ! self::is_silent_publish_enabled() ) {
 			return;
 		}
 
-		$disable = 'publish' === $post->post_status;
-
 		$silent_published = self::is_silent_published();
 
-		$silent_publish_on = self::is_silent_publish_on_by_default() || $silent_published;
-
 		self::output_field( array(
-			'disable'        => $disable,
+			'disable'        => 'publish' === get_post_status(),
 			'published'      => $silent_published,
-			'silent_publish' => $silent_publish_on,
+			'silent_publish' => self::is_silent_publish_on_by_default() || $silent_published,
 		) );
 	}
 
