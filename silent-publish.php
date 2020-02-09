@@ -367,7 +367,7 @@ class c2c_SilentPublish {
 			return;
 		}
 
-		$disable = ( 'publish' == $post->post_status );
+		$disable = 'publish' === $post->post_status;
 
 		$silent_published = self::is_silent_published();
 
