@@ -296,11 +296,7 @@ class c2c_SilentPublish {
 	 * @return bool True if post is, or will be, silent published, false otherwise.
 	 */
 	public static function is_silent_published( $post = null ) {
-		if ( is_null( $post ) ) {
-			global $post;
-		} else {
-			$post = get_post ( $post );
-		}
+		$post = get_post ( $post );
 
 		if ( ! $post ) {
 			return false;
