@@ -1,6 +1,13 @@
 # Changelog
 
-## _(in-progress)_
+## 2.8 _(2020-02-09)_
+
+### Highlights:
+
+This feature-packed release adds support for setting and viewing the silent publish status in the quick edit panel, adds an icon indicator in the post listing for posts that were (or will be) silent published, shows a message instead of a disabled checkbox when editing a silently published post, adds support for all public post types, notes compatibility through WP 5.3+, and much more internally.
+
+### Details:
+
 * New: Add icon to 'Date' column of post listing to indicate posts that were or will be silently published
 * New: Allow the "Silent Publish?" value to be set and seen in the quick edit pane
     * New: Add `add_to_quick_edit()`

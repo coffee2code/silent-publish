@@ -6,7 +6,7 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.6
 Tested up to: 5.3
-Stable tag: 2.7
+Stable tag: 2.8
 
 Adds the ability to publish a post without triggering pingbacks, trackbacks, or notifying update services.
 
@@ -152,6 +152,42 @@ add_filter( 'c2c_silent_publish_post_types', 'my_c2c_silent_publish_post_types' 
 
 == Changelog ==
 
+= 2.8 (2020-02-09) =
+
+Highlights:
+
+* This feature-packed release adds support for setting and viewing the silent publish status in the quick edit panel, adds an icon indicator in the post listing for posts that were (or will be) silent published, shows a message instead of a disabled checkbox when editing a silently published post, adds support for all public post types, notes compatibility through WP 5.3+, and much more internally.
+
+Details:
+
+* New: Add icon to 'Date' column of post listing to indicate posts that were or will be silently published
+* New: Allow the "Silent Publish?" value to be set and seen in the quick edit pane
+    * New: Add `add_to_quick_edit()`
+    * New: Add `admin_enqueue_scripts()`
+* New: Add `is_silent_published()` to determine if silent publish is activated for a post
+* Change: Alter `is_silent_publish_on_by_default()` to solely reflect the default state of silent publish for new posts
+* Fix: Don't output field as if post was silently published if it wasn't but the field default was filtered to be true
+* New: Add TODO.md and move existing TODO list from top of main plugin file into it (and add more items to the list)
+* Change: Show message instead of disabled checkbox when editing silently published post and show nothing for published posts that weren't silently published
+* Change: Enable plugin functionality for all public post types by default
+    * New: Add `get_post_types()` for retrieving post types
+    * New: Add filter `c2c_silent_publish_post_types` to filter post types
+* Change: Don't do anything for posts of a post type that is not public
+* Change: Extract markup handling from `add_ui()` into new `output_field()`
+* Change: Update JavaScript dependencies and rebuild JS code
+* Change: Include 'c2c-silent-published' class for label when field is diabled
+* Change: Remove unnecessary inline CSS that lowered opacity for disabled field
+* Unit tests:
+    * New: Add helper function `create_post()`
+    * Change: Explicitly test priority value of hooks instead of simply that they're set
+    * Change: Refactor some unit tests
+* Change: Note compatibility through WP 5.3+
+* Change: Use full URL for readme.txt link to full changelog
+* Change: Split paragraph in README.md's "Support" section into two
+* Change: Add link to CHANGELOG.md in README.md
+* Change: Update copyright date (2020)
+* New: Add 4 new screenshots (including for block editor UI) and update existing 2 screenshots
+
 = 2.7 (2019-03-12) =
 * New: Add support for new block editor (aka Gutenberg)
 * New: Add `is_silent_publish_on_by_default()` to determine if silent publish should be enabled for posts by default
@@ -180,33 +216,13 @@ add_filter( 'c2c_silent_publish_post_types', 'my_c2c_silent_publish_post_types' 
 * Change: Modify formatting of hook name in readme to prevent being uppercased when shown in the Plugin Directory
 * Change: Update copyright date (2018)
 
-= 2.6 (2017-03-08) =
-* Change: Overhaul how setting gets saved
-    * Hook 'save_post' action instead of 'wp_insert_post_data'
-    * Ensure setting value isn't saved if no meta key name is set, or the post is a revision or autosave
-* Change: Overhaul how silent publishing is implemented
-    * Instead of set `WP_IMPORTING` constant, unhook `_publish_post_hook()` from 'publish_post' action
-    * No need to potentially save the value of the meta field
-* Change: Show the "Silent publish?" checkbox as checked but disabled once a post has been silently published
-* Change: Add nonce alongside checkbox
-* Change: Add `get_meta_key_name()` as getter for meta_key name, allowing for late filtering
-* Change: Prevent object instantiation of the class
-* Change: Use `sprintf()` to produce markup rather than concatenating various strings, function calls, and variables
-* Change: Update unit test bootstrap
-    * Default `WP_TESTS_DIR` to `/tmp/wordpress-tests-lib` rather than erroring out if not defined via environment variable
-    * Enable more error output for unit tests
-* Change: Minor inline code documentation formatting changes (punctuation, verb tense)
-* Change: Note compatibility through WP 4.7+
-* Change: Remove support for WordPress older than 4.6 (should still work for earlier versions back to WP 3.6)
-* Change: Update readme.txt content and formatting
-* Change: Add more FAQs
-* Change: Add more unit tests
-* Change: Update copyright date (2017)
-
 _Full changelog is available in [CHANGELOG.md](https://github.com/coffee2code/silent-publish/blob/master/CHANGELOG.md)._
 
 
 == Upgrade Notice ==
+
+= 2.8 =
+Feature update: added controls for silent publish in quick edit panel, added icon to post listing for posts set as silent published, showed message instead of disabled checkbox when editing silently published post, now support all public post types, noted compatibility through WP 5.3+, and more.
 
 = 2.7 =
 Recommended update: added support for the new block editor (aka Gutenberg), modified initialization handling, noted compatibility through WP 5.1+, updated copyright date (2019), and more.

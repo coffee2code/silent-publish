@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Silent Publish
- * Version:     2.7
+ * Version:     2.8
  * Plugin URI:  http://coffee2code.com/wp-plugins/silent-publish/
  * Author:      Scott Reilly
  * Author URI:  http://coffee2code.com/
@@ -18,7 +18,7 @@
  *
  * @package Silent_Publish
  * @author  Scott Reilly
- * @version 2.7
+ * @version 2.8
  */
 
 /*
@@ -73,7 +73,7 @@ class c2c_SilentPublish {
 	 * @since 2.2.1
 	 */
 	public static function version() {
-		return '2.7';
+		return '2.8';
 	}
 
 	/**
@@ -289,7 +289,7 @@ class c2c_SilentPublish {
 	 * published or not, just whether it has been saved with silent
 	 * publish checked.
 	 *
-	 * @since 2.9
+	 * @since 2.8
 	 *
 	 * @param WP_Post|int|null The ppst object, post ID, or null (to mean the
 	 *                         current post.
