@@ -15,6 +15,7 @@
     * New: Add filter `c2c_silent_publish_post_types` to filter post types
 * Change: Don't do anything for posts of a post type that is not public
 * Change: Extract markup handling from `add_ui()` into new `output_field()`
+* Change: Update JavaScript dependencies and rebuild JS code
 * Change: Include 'c2c-silent-published' class for label when field is diabled
 * Change: Remove unnecessary inline CSS that lowered opacity for disabled field
 * Unit tests:
