@@ -567,7 +567,7 @@ class c2c_SilentPublish {
 		self::save_silent_publish_status( $post_id, get_post( $post_id ), true );
 
 		// Should the post be published silently?
-		if ( get_post_meta( $post_id, $meta_key, true ) ) {
+		if ( self::is_silent_published( $post_id ) ) {
 			// Unhook the action responsible for handling pings and enclosures for post.
 			remove_action( 'publish_post', '_publish_post_hook', 5, 1 );
 		}
