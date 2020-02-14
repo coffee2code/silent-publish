@@ -444,7 +444,7 @@ class Silent_Publish_Test extends WP_UnitTestCase {
 		$this->expectOutputRegex(
 			'~' . preg_quote( sprintf(
 				'<div class="misc-pub-section"><label class="selectit c2c-silent-publish" for="silent_publish" title="%s">' . "\n",
-				'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.',
+				'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.'
 				) )
 			// Nonce
 			. '\<input type\="hidden".+/\>'

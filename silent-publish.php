@@ -428,7 +428,7 @@ class c2c_SilentPublish {
 			'<div class="misc-pub-section"><label class="selectit c2c-silent-publish%s" for="%s" title="%s">' . "\n",
 			$args['disable'] ? ' c2c-silent-published-disabled' : '',
 			esc_attr( self::$field ),
-			esc_attr__( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' ),
+			esc_attr__( 'If checked, upon publication of this post do not perform any pingbacks, trackbacks, or update service notifications.', 'silent-publish' )
 		);
 
 		// Output nonce.
